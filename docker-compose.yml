@@ -1,0 +1,49 @@
+# version: "3"
+services:
+  app:
+    build:
+      context: .
+    environment:
+      DB_HOST: mysql
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_NAME: database
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+      - "443:443"
+    networks:
+      - plant-network
+
+  mysql:
+    image: mysql:latest
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    networks:
+      - plant-network
+    healthcheck:
+      # TODO make this use variables
+      test:
+        [
+          "CMD-SHELL",
+          "mysql -h localhost -u user -ppassword -e 'SELECT 1'",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  db-data:
+
+networks:
+  plant-network:
+    driver: bridge
