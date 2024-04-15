@@ -51,8 +51,28 @@ async function main() {
                 ON DELETE CASCADE
                 ON UPDATE CASCADE
         );`,
+        `CREATE TABLE IF NOT EXISTS sensors (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            name VARCHAR(45) NOT NULL,
+            location_id INT,
+            description TEXT,
+            FOREIGN KEY (location_id) REFERENCES locations(id)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE
+        );`,
+        `CREATE TABLE IF NOT EXISTS plants_sensors (
+            plant_id INT,
+            sensor_id INT,
+            PRIMARY KEY (plant_id, sensor_id),
+            FOREIGN KEY (plant_id) REFERENCES plants(id)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE,
+            FOREIGN KEY (sensor_id) REFERENCES sensors(id)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE
+        );`,
     ]
-for (const query of queries) {
+    for (const query of queries) {
         await connection.execute(query);
     }
 
@@ -61,23 +81,23 @@ for (const query of queries) {
 
     const testQueries = [
         `INSERT INTO locations (name, is_indoors, light_type) VALUES
-            ('Greenhouse', 1, 'full sun'),
-            ('Backyard', 0, 'partial shade'),
-            ('Living room', 1, 'bright indirect')
+        ('Greenhouse', 1, 'full sun'),
+        ('Backyard', 0, 'partial shade'),
+        ('Living room', 1, 'bright indirect')
         ;`,
         `INSERT INTO plants (nickname, date_added, location_id) VALUES
-            ('Tomato', '2024-04-01', 1),
-            ('Cucumber', '2024-09-02', 1),
-            ('Pepper', '2024-04-03', 1)
+        ('Tomato', '2024-04-01', 1),
+        ('Cucumber', '2024-09-02', 1),
+        ('Pepper', '2024-04-03', 1)
         ;`,
         `INSERT INTO plants (nickname, date_added, location_id) VALUES
-            ('Lettuce', '2024-04-01', 2),
-            ('Plum tree', '2019-04-02', 2),
-            ('Maple tree', '2020-06-22', 2)
+        ('Lettuce', '2024-04-01', 2),
+        ('Plum tree', '2019-04-02', 2),
+        ('Maple tree', '2020-06-22', 2)
         ;`,
         `INSERT INTO plants (nickname, date_added, location_id) VALUES
-            ('Aloe Vera', '2024-01-11', 3),
-            ('Spider Plant', '2024-04-03', 3)
+        ('Aloe Vera', '2024-01-11', 3),
+        ('Spider Plant', '2024-04-03', 3)
         ;`,
     ];
     for (const query of testQueries) {
