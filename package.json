@@ -5,12 +5,17 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "buildDB": "node ./backend/createDB.js",
+    "createTestData": "node ./backend/testData.js",
+    "serve": "node ./backend/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2",
+    "express-handlebars": "^7.1.2",
+    "handlebars": "^4.7.8",
     "mysql2": "^3.9.4",
     "path": "^0.12.7"
   }

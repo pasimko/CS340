@@ -1,0 +1,36 @@
+/* Reset default margin and padding for the header and nav elements */
+header, nav {
+    margin: 0;
+    padding: 0;
+}
+
+/* Style the header element */
+header {
+    background-color: #333; /* Dark background color */
+    color: #fff; /* White text color */
+    padding: 10px 0; /* Add padding to the top and bottom */
+}
+
+/* Style the navigation menu ul */
+nav ul {
+    list-style-type: none; /* Remove default bullet points */
+    display: flex; /* Display items in a row */
+    justify-content: center; /* Center-align the items horizontally */
+}
+
+/* Style the navigation menu items */
+nav ul li {
+    margin-right: 20px; /* Add spacing between items */
+}
+
+/* Style the links in the navigation menu */
+nav ul li a {
+    color: #fff; /* White text color for links */
+    text-decoration: none; /* Remove underline from links */
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+/* Change link color on hover */
+nav ul li a:hover {
+    color: #ffd700; /* Change to gold color on hover */
+}

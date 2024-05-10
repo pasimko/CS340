@@ -1,0 +1,71 @@
+<link rel="stylesheet" href="/css/form.css">
+
+  <label for="operation">Select Operation:</label>
+  <select id="operation" onchange="toggleForm()">
+    <option value="create">Create</option>
+    <option value="update">Update</option>
+    <option value="delete">Delete</option>
+  </select>
+
+  <div id="createForm" style="display: none;">
+    <!-- Create Entry Form -->
+    <h2>Create Entry</h2>
+    <form method="POST" action="/create">
+      {{#each (lookup entries 0) as |key value|}}
+        <label for="{{key}}">{{key}}:</label>
+        <input type="text" id="{{key}}" name="{{key}}">
+      {{/each}}
+      <button type="submit">Create</button>
+    </form>
+  </div>
+
+  <div id="updateForm" style="display: none;">
+    <!-- Update Entry Form -->
+    <h2>Update Entry</h2>
+    <form method="POST" action="/update">
+      <label for="id">ID:</label>
+      <input type="number" id="id" name="id">
+      {{#each (lookup entries 0) as |key value|}}
+        <label for="updated{{key}}">Updated {{key}}:</label>
+        <input type="text" id="updated{{key}}" name="updated{{key}}">
+      {{/each}}
+      <button type="submit">Update</button>
+    </form>
+  </div>
+
+  <div id="deleteForm" style="display: none;">
+    <!-- Delete Entry Form -->
+    <h2>Delete Entry</h2>
+    <form method="POST" action="/delete">
+      <label for="deleteId">ID:</label>
+      <input type="number" id="deleteId" name="deleteId">
+      <button type="submit">Delete</button>
+    </form>
+  </div>
+
+<table>
+  <thead>
+    <tr>
+      {{#each (lookup entries 0) as |key value|}}
+        <th>{{key}}</th>
+      {{/each}}
+    </tr>
+  </thead>
+  <tbody>
+    {{#each entries as |item|}}
+      <tr>
+        {{#each item as |value|}}
+          <td>{{value}}</td>
+        {{/each}}
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+<script>
+    function toggleForm() {
+        const operation = document.getElementById('operation').value;
+        document.getElementById('createForm').style.display = operation === 'create' ? 'block' : 'none';
+        document.getElementById('updateForm').style.display = operation === 'update' ? 'block' : 'none';
+        document.getElementById('deleteForm').style.display = operation === 'delete' ? 'block' : 'none';
+    }
+</script>
