@@ -9,7 +9,7 @@ USE `database` ;
 
 CREATE TABLE IF NOT EXISTS `database`.`locations` (
   `location_id` INT NOT NULL AUTO_INCREMENT,
-  `location_name` VARCHAR(45) UNIQUE NULL,
+  `name` VARCHAR(45) UNIQUE NULL,
   `is_indoors` TINYINT NOT NULL DEFAULT 1,
   `light_category` ENUM("full sun", "partial sun", "full shade", "partial shade", "bright indirect") NOT NULL,
   PRIMARY KEY (`location_id`))
@@ -17,7 +17,7 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `database`.`plants` (
   `plant_id` INT NOT NULL AUTO_INCREMENT,
-  `nickname` VARCHAR(45) NULL,
+  `name` VARCHAR(45) NULL,
   `date_added` DATE NOT NULL DEFAULT (CURDATE()),
   `locations_location_id` INT NULL DEFAULT NULL,
   PRIMARY KEY (`plant_id`),
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `database`.`plants` (
 
 CREATE TABLE IF NOT EXISTS `database`.`sensors` (
   `sensor_id` INT NOT NULL AUTO_INCREMENT,
-  `sensor_name` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
   `sensor_type` VARCHAR(45) NULL,
   `data_units` VARCHAR(45) NULL,
   `status` TINYINT NOT NULL,

@@ -22,13 +22,38 @@ async function main() {
     // This just uses the stuff we got once
     // In the future, we will need to fetch dynamically
     for (const page of pages) {
+        // Fetch table schema
         const [schemaResult] = await connection.execute(`DESCRIBE ${page}`);
         const schemaFields = schemaResult.map(row => row.Field);
 
-        // Fetch table data
-        const [dataResult] = await connection.execute(`SELECT * FROM ${page}`);
+        // Fetch foreign key information
+        const [fkResult] = await connection.execute(`
+            SELECT COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
+            FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+            WHERE TABLE_SCHEMA = DATABASE()
+            AND TABLE_NAME = ?
+            AND REFERENCED_TABLE_NAME IS NOT NULL
+            `, [page]);
+
+        // Construct the base query
+        let baseQuery = `SELECT ${page}.*`;
+
+        // Construct JOIN clauses for foreign keys
+        let joinClauses = '';
+        for (const fk of fkResult) {
+            baseQuery += `, ${fk.REFERENCED_TABLE_NAME}.name AS ${fk.COLUMN_NAME}_name`;
+            joinClauses += ` LEFT JOIN ${fk.REFERENCED_TABLE_NAME} ON ${page}.${fk.COLUMN_NAME} = ${fk.REFERENCED_TABLE_NAME}.${fk.REFERENCED_COLUMN_NAME}`;
+        }
+
+        // Complete the query
+        const fullQuery = `${baseQuery} FROM ${page}${joinClauses}`;
+
+        // Fetch table data with the constructed query
+        const [dataResult] = await connection.execute(fullQuery);
         testData[page] = [schemaFields, ...dataResult];
     }
+
+    console.log(testData)
 
     const app = express();
     app.engine('handlebars', engine({ defaultLayout: 'main' }));

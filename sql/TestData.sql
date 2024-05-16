@@ -1,24 +1,24 @@
-INSERT INTO locations (location_name, is_indoors, light_category) VALUES
+INSERT INTO locations (name, is_indoors, light_category) VALUES
         ('Greenhouse', 1, 'full sun'),
         ('Backyard', 0, 'partial shade'),
         ('Living room', 1, 'bright indirect')
         ;
-INSERT INTO plants (nickname, locations_location_id) VALUES
+INSERT INTO plants (name, locations_location_id) VALUES
         ('Tomato', 1),
         ('Cucumber', 1),
         ('Pepper', 1)
         ;
-INSERT INTO plants (nickname, locations_location_id) VALUES
+INSERT INTO plants (name, locations_location_id) VALUES
         ('Lettuce', 2),
         ('Plum tree', 2),
         ('Maple tree', 2)
         ;
-INSERT INTO plants (nickname, locations_location_id) VALUES
+INSERT INTO plants (name, locations_location_id) VALUES
         ('Aloe Vera', 3),
         ('Spider Plant', 3)
         ;
 
-INSERT INTO sensors (sensor_name, sensor_type, data_units, status) VALUES
+INSERT INTO sensors (name, sensor_type, data_units, status) VALUES
         ('sun sensor', 'solar', 'lux', 1),
         ('moisture meter', 'moisture', '%', 1),
         ('mood meter', 'happiness', 'smiles', 1)
