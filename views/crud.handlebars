@@ -12,9 +12,21 @@
     <!-- Create Entry Form -->
     <h2>Create Entry</h2>
     <form method="POST" action="/create">
-      {{#each (lookup entries 0) as |key value|}}
-        <label for="{{key}}">{{key}}:</label>
-        <input type="text" id="{{key}}" name="{{key}}">
+      <!-- create a form field for each entry. If null, empty text field. Otherwise, dropdown menu with each of `value`s as an option -->
+      <!-- loops over object -->
+      {{#each entries.[0]}}
+        <label for="{{@key}}">{{@key}}:</label>
+        <!-- Values of keys are referred to as `this` for some reason -->
+        <!-- Iterate over it if it exists to create a dropdown menu -->
+        {{#if this }}
+          <select name="{{@key}}" id="{{@key}}">
+            {{#each this}}
+              <option value="{{this}}">{{this}}</option>
+            {{/each}}
+          </select>
+        {{else}}
+          <input type="text" id="{{@key}}" name="{{@key}}" placeholder="{{@key}}">
+        {{/if}}
       {{/each}}
       <button type="submit">Create</button>
     </form>
@@ -24,11 +36,21 @@
     <!-- Update Entry Form -->
     <h2>Update Entry</h2>
     <form method="POST" action="/update">
-      <label for="id">ID:</label>
-      <input type="number" id="id" name="id">
-      {{#each (lookup entries 0) as |key value|}}
-        <label for="updated{{key}}">Updated {{key}}:</label>
-        <input type="text" id="updated{{key}}" name="updated{{key}}">
+      <!-- create a form field for each entry. If null, empty text field. Otherwise, dropdown menu with each of `value`s as an option -->
+      <!-- loops over object -->
+      {{#each entries.[0]}}
+        <label for="{{@key}}">{{@key}}:</label>
+        <!-- Values of keys are referred to as `this` for some reason -->
+        <!-- Iterate over it if it exists to create a dropdown menu -->
+        {{#if this }}
+          <select name="{{@key}}" id="{{@key}}">
+            {{#each this}}
+              <option value="{{this}}">{{this}}</option>
+            {{/each}}
+          </select>
+        {{else}}
+          <input type="text" id="{{@key}}" name="{{@key}}" placeholder="{{@key}}">
+        {{/if}}
       {{/each}}
       <button type="submit">Update</button>
     </form>
@@ -47,18 +69,22 @@
 <table>
   <thead>
     <tr>
-      {{#each (lookup entries 0) as |key value|}}
-        <th>{{key}}</th>
+      <!-- Get column name -->
+      {{#each entries.[0]}}
+        <th>{{@key}}</th>
       {{/each}}
     </tr>
   </thead>
   <tbody>
-    {{#each entries as |item|}}
+    {{#each entries as |item index|}}
+    <!-- Skip first (0th) index because it's the header info -->
+    {{#if index}}
       <tr>
         {{#each item as |value|}}
           <td>{{value}}</td>
         {{/each}}
       </tr>
+        {{/if}}
     {{/each}}
   </tbody>
 </table>

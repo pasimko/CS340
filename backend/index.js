@@ -20,20 +20,39 @@ async function main() {
     });
 
     // This just uses the stuff we got once
-    // In the future, we will need to fetch dynamically
+    // In the future, we will need to fetch dynamically with every request
     for (const page of pages) {
         // Fetch table schema
         const [schemaResult] = await connection.execute(`DESCRIBE ${page}`);
-        const schemaFields = schemaResult.map(row => row.Field);
+        // Build schema as object (for help with forms)
+        const schemaFields = Object.fromEntries(schemaResult.map(row => [row.Field, null]));
 
-        // Fetch foreign key information
+        // Get FK relationships from table
+            // Yields eg
+            //  [
+            //    {
+            //      COLUMN_NAME: 'plants_plant_id',
+            //      REFERENCED_TABLE_NAME: 'plants',
+            //      REFERENCED_COLUMN_NAME: 'plant_id'
+            //    }
+            //  ]
+        // Derived from:
+            // https://stackoverflow.com/questions/201621/how-do-i-see-all-foreign-keys-to-a-table-or-column
+        // 5/16/2024
         const [fkResult] = await connection.execute(`
             SELECT COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
             FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
-            WHERE TABLE_SCHEMA = DATABASE()
-            AND TABLE_NAME = ?
+            WHERE TABLE_NAME = ?
             AND REFERENCED_TABLE_NAME IS NOT NULL
             `, [page]);
+
+        // Fill FK fields with names for CRUD menus
+        // TODO also do this with ENUMs
+        for (const fk of fkResult) {
+             // Get list of names
+            const [names] = await connection.execute(`SELECT NAME FROM ${fk.REFERENCED_TABLE_NAME};`);
+            schemaFields[fk.COLUMN_NAME] = names.map(row => row.NAME);
+        }
 
         // Construct the base query
         let baseQuery = `SELECT ${page}.*`;
@@ -44,7 +63,6 @@ async function main() {
             baseQuery += `, ${fk.REFERENCED_TABLE_NAME}.name AS ${fk.COLUMN_NAME}_name`;
             joinClauses += ` LEFT JOIN ${fk.REFERENCED_TABLE_NAME} ON ${page}.${fk.COLUMN_NAME} = ${fk.REFERENCED_TABLE_NAME}.${fk.REFERENCED_COLUMN_NAME}`;
         }
-
         // Complete the query
         const fullQuery = `${baseQuery} FROM ${page}${joinClauses}`;
 
@@ -52,8 +70,6 @@ async function main() {
         const [dataResult] = await connection.execute(fullQuery);
         testData[page] = [schemaFields, ...dataResult];
     }
-
-    console.log(testData)
 
     const app = express();
     app.engine('handlebars', engine({ defaultLayout: 'main' }));
@@ -64,6 +80,7 @@ async function main() {
     pages.forEach(page => {
         app.get(`/${page}`, (req, res) => {
             // Render the corresponding Handlebars template
+            console.log(testData[page])
             res.render('crud', {
                 title: `${page.charAt(0).toUpperCase() + page.slice(1)} Page`,
                 pageName: page,
