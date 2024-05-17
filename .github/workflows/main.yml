@@ -16,6 +16,6 @@ jobs:
         echo "${{ secrets.RSA_GITHUB }}" > ~/.ssh/id_rsa
         ssh-keyscan -p 1920 -H anticomputer.club > ~/.ssh/known_hosts
     - name: connect and pull
-      run: ssh paul@ourdegre.es -p 1920 "source /etc/profile.d/plants.sh && cd /home/paul/CS340 && git checkout main && git pull && docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d && exit"
+      run: ssh paul@anticomputer.club -p 1920 "source /etc/profile.d/plants.sh && cd /home/paul/CS340 && git checkout main && git pull && docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d && exit"
     - name: cleanup
       run: rm -rf ~/.ssh
