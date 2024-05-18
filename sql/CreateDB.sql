@@ -7,11 +7,18 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 CREATE SCHEMA IF NOT EXISTS `database` DEFAULT CHARACTER SET utf8 ;
 USE `database` ;
 
+CREATE TABLE IF NOT EXISTS `database`.`light_categories` (
+  `category_id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) UNIQUE NULL,
+  PRIMARY KEY (`category_id`))
+ENGINE = InnoDB;
+
 CREATE TABLE IF NOT EXISTS `database`.`locations` (
   `location_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) UNIQUE NULL,
   `is_indoors` TINYINT NOT NULL DEFAULT 1,
-  `light_category` ENUM("full sun", "partial sun", "full shade", "partial shade", "bright indirect") NOT NULL,
+  `light_category` INT NOT NULL,
+  FOREIGN KEY (`light_category`) REFERENCES `database`.`light_categories` (`category_id`),
   PRIMARY KEY (`location_id`))
 ENGINE = InnoDB;
 
@@ -54,11 +61,18 @@ CREATE TABLE IF NOT EXISTS `database`.`updates` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `database`.`action_types` (
+  `action_type_id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) UNIQUE NULL,
+  PRIMARY KEY (`action_type_id`))
+ENGINE = InnoDB;
+
 CREATE TABLE IF NOT EXISTS `database`.`actions` (
   `sensor_reading_id` INT PRIMARY KEY AUTO_INCREMENT,
-  `action_type` ENUM("water", "fertilize", "prune", "harvest", "repot") NOT NULL,
+  `action_type` INT NOT NULL,
   `action_date` DATE NOT NULL DEFAULT (CURDATE()),
   `plants_plant_id` INT NOT NULL,
+  FOREIGN KEY (`action_type`) REFERENCES `database`.`action_types` (`action_type_id`),
   INDEX `fk_actions_plants1_idx` (`plants_plant_id` ASC),
   CONSTRAINT `fk_actions_plants1`
     FOREIGN KEY (`plants_plant_id`)
