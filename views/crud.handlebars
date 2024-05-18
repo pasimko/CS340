@@ -11,7 +11,7 @@
   <div id="createForm" style="display: none;">
     <!-- Create Entry Form -->
     <h2>Create Entry</h2>
-    <form method="POST" action="/create">
+    <form method="POST" action="{{pageName}}/create">
       <!-- create a form field for each entry. If null, empty text field. Otherwise, dropdown menu with each of `value`s as an option -->
       <!-- loops over object -->
       {{#each entries.[0]}}
@@ -35,7 +35,7 @@
   <div id="updateForm" style="display: none;">
     <!-- Update Entry Form -->
     <h2>Update Entry</h2>
-    <form method="POST" action="/update">
+    <form method="POST" action="{{pageName}}/update">
       <!-- create a form field for each entry. If null, empty text field. Otherwise, dropdown menu with each of `value`s as an option -->
       <!-- loops over object -->
       {{#each entries.[0]}}
@@ -59,7 +59,7 @@
   <div id="deleteForm" style="display: none;">
     <!-- Delete Entry Form -->
     <h2>Delete Entry</h2>
-    <form method="POST" action="/delete">
+    <form method="POST" action="{{pageName}}/delete">
       <label for="deleteId">ID:</label>
       <input type="number" id="deleteId" name="deleteId">
       <button type="submit">Delete</button>
