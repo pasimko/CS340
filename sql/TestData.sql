@@ -1,7 +1,19 @@
+INSERT INTO light_categories(category_id, name) VALUES
+        (1, 'full sun'),
+        (2, 'partial shade'),
+        (3, 'bright indirect')
+        ;
+
+INSERT INTO action_types(action_type_id, name) VALUES
+        (1, 'water'),
+        (2, 'fertilize'),
+        (3, 'harvest')
+        ;
+
 INSERT INTO locations (name, is_indoors, light_category) VALUES
-        ('Greenhouse', 1, 'full sun'),
-        ('Backyard', 0, 'partial shade'),
-        ('Living room', 1, 'bright indirect')
+        ('Greenhouse', 1, 1),
+        ('Backyard', 0, 2),
+        ('Living room', 1, 3)
         ;
 INSERT INTO plants (name, locations_location_id) VALUES
         ('Tomato', 1),
@@ -35,12 +47,12 @@ INSERT INTO sensor_readings (sensors_sensor_id, plants_plant_id, value) VALUES
         ;
 
 INSERT INTO actions (action_type, plants_plant_id) VALUES
-        ('water', 1),
-        ('water', 2),
-        ('water', 2),
-        ('fertilize', 4),
-        ('fertilize', 5),
-        ('harvest', 1)
+        (1, 1),
+        (1, 2),
+        (1, 2),
+        (2, 4),
+        (2, 5),
+        (3, 1)
         ;
 INSERT INTO updates (health_score, comment, plants_plant_id) VALUES
         (5, "Extra fragrant today!", 1),
