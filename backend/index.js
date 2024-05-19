@@ -9,16 +9,17 @@ import fs from 'fs';
 
 
 import {getColumnHeaderDictionary} from './stringDictionary.js';
-import {GetInsertQueryString} from './SQLQueries.js';
-
+import * as SQLQueries from './SQLQueries.js';
+import * as dataManipulations from './dataManipulations.js'
 
 const pages = ['actions', 'locations', 'plants', 'sensor_readings', 'sensors', 'updates', 'light_categories', 'action_types'];
-const testData = {};
-
+let testData = {};
+let fkResults = {};
+let allSchemaFields = {};
+let formattedMetadata = {};
 
 async function main() {
     console.log("Starting backend!");
-
 
     const connection = await mysql.createConnection({
         host: process.env.DB_HOST,
@@ -56,6 +57,8 @@ async function main() {
             AND REFERENCED_TABLE_NAME IS NOT NULL
             `, [page]);
 
+        //foreign keys will not be mutable on the user end, so there's no need to re-calculate them after this first time.
+        fkResults[page] = fkResult;
 
         // Fill FK fields with names for CRUD menus
         // TODO also do this with ENUMs
@@ -65,11 +68,11 @@ async function main() {
             schemaFields[fk.COLUMN_NAME] = names.map(row => row.NAME);
         }
 
+        //schema fields will not be mutable on the user end, so there's no need to re-calculate them after this first time.
+        allSchemaFields[page] = schemaFields;
 
         // Construct the base query
         let baseQuery = `SELECT ${page}.*`;
-
-
         // Construct JOIN clauses for foreign keys
         let joinClauses = '';
         for (const fk of fkResult) {
@@ -79,34 +82,36 @@ async function main() {
         // Complete the query
         const fullQuery = `${baseQuery} FROM ${page}${joinClauses}`;
 
-
+        const tableMetadataQuery = SQLQueries.GetTableDataTypes(page);
         // Fetch table data with the constructed query
         const [dataResult] = await connection.execute(fullQuery);
+        const metadata = await connection.execute(tableMetadataQuery);
+        formattedMetadata[page] = dataManipulations.FormatMetadataInformation(metadata);
+
         testData[page] = [schemaFields, ...dataResult];
     }
-
-
     const app = express();
     app.engine('handlebars', engine({ defaultLayout: 'main' }));
     app.set('view engine', 'handlebars');
 
-
     app.use(express.static('frontend'));
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }))
-    //app.use(express.static("public"))
-
 
     pages.forEach(page => {
-        app.get(`/${page}`, (req, res) => {
+        app.get(`/${page}`, async (req, res) => {
+
+            const fullQuery = SQLQueries.GetFullDataTableQuery(page, fkResults[page]);
+            const [dataResult] = await connection.execute(fullQuery);
+            testData[page] = [allSchemaFields[page], ...dataResult];
+
             // Render the corresponding Handlebars template
-
-
             res.render('crud', {
                 title: `${page.charAt(0).toUpperCase() + page.slice(1)} Page`,
                 pageName: page,
                 pages: pages,
-                entries: testData[page]
+                entries: testData[page],
+                tableMetadata: formattedMetadata[page]
             });
         });
         app.post(`/${page}/create`, async (req, res) =>
@@ -115,10 +120,9 @@ async function main() {
                
                 if(req.body !== null)
                 {
-                    const queryString = GetInsertQueryString(page, obj);
+                    const queryString = SQLQueries.InsertQueryString(page, obj);
                     await connection.execute(queryString);
-                    //Todo: must change response to update the table
-                    res.redirect('/');
+                    res.redirect(req.get('referer'));
                 }
                 else{
                     res.status(401).send("Please check your stuff.");
@@ -135,6 +139,7 @@ async function main() {
             pages: pages
         });
     });
+    
 
 
     if (process.env.IS_PROD === "true") {
