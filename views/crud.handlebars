@@ -18,6 +18,8 @@
         <label for="{{@key}}">{{@key}}:</label>
         <!-- Values of keys are referred to as `this` for some reason -->
         <!-- Iterate over it if it exists to create a dropdown menu -->
+
+        <!-- Todo: hide auto-increment fields so that they'll be auto-generated -->
         {{#if this }}
           <select name="{{@key}}" id="{{@key}}">
             {{#each this}}
@@ -25,7 +27,7 @@
             {{/each}}
           </select>
         {{else}}
-          <input type="text" id="{{@key}}" name="{{@key}}" placeholder="{{@key}}">
+          <input type="text" id="{{@key}}" name="{{@key}}">
         {{/if}}
       {{/each}}
       <button type="submit">Create</button>
