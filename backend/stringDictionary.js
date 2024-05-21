@@ -29,3 +29,4 @@ export function getColumnHeaderDictionary()
     return columnHeaderDictionary;
 }
 
+    for (const columnString in columnStrings)

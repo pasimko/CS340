@@ -7,8 +7,7 @@ import { engine } from 'express-handlebars';
 import https from 'https';
 import fs from 'fs';
 
-
-import {getColumnHeaderDictionary} from './stringDictionary.js';
+import * as stringDictionary from './stringDictionary.js';
 import * as SQLQueries from './SQLQueries.js';
 import * as dataManipulations from './dataManipulations.js'
 
@@ -111,7 +110,8 @@ async function main() {
                 pageName: page,
                 pages: pages,
                 entries: testData[page],
-                tableMetadata: formattedMetadata[page]
+                tableMetadata: formattedMetadata[page],
+                headerStringDictionary: stringDictionary.buildCustomDictionary(allSchemaFields[page]),
             });
         });
         app.post(`/${page}/create`, async (req, res) =>
