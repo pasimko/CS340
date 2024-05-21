@@ -73,7 +73,7 @@
     <tr>
       <!-- Get column name -->
       {{#each entries.[0]}}
-        <th>{{@key}}</th>
+        <th>{{lookup @root.headerStringDictionary @key}}</th>
       {{/each}}
     </tr>
   </thead>
