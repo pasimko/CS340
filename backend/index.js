@@ -89,6 +89,9 @@ async function main() {
 
         testData[page] = [schemaFields, ...dataResult];
     }
+    const primaryKeys = await connection.execute(SQLQueries.GetPrimaryKeysQuery());
+    const primaryKeyDictionary = dataManipulations.GetPrimaryKeyDictionary(primaryKeys);
+    console.log(primaryKeyDictionary);
     const app = express();
     app.engine('handlebars', engine({ defaultLayout: 'main' }));
     app.set('view engine', 'handlebars');
@@ -129,9 +132,24 @@ async function main() {
                 }
             }
             );
-        });
+        
+        app.post(`/${page}/update`, async (req, res) =>
+            {
+                const obj = JSON.parse(JSON.stringify(req.body));
+                if(req.body !== null)
+                    {
+                        const primaryKey = primaryKeyDictionary[page];
+                        const queryString = SQLQueries.UpdateQueryString(page, obj, primaryKey);
+                        await connection.execute(queryString);
+                        res.redirect(req.get('referer'));
+                    }
+                    else{
+                        res.status(401).send("Please check your stuff.");
+                    }
+            }
+        );
 
-
+    });
     // Define routes
     app.get('/', (req, res) => {
         res.render('index', {

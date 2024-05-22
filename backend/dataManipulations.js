@@ -38,10 +38,17 @@ export function FormatMetadataInformation(dataTables)
         returnData[columnInfo['COLUMN_NAME']] = columnInfo;
     }
     return returnData;
-}
+};
 
-export function ConvertToDisplayStrings(listOfStrings)
+export function GetPrimaryKeyDictionary(sqlReturnValue)
 {
-    //TODO: replace raw strigns with display strings
-    return listOfStrings;
-}
+    let primaryKeyDictionary = {};
+    for (let i = 0; i < sqlReturnValue[0].length; i++)
+        {
+            let entry = sqlReturnValue[0][i];
+            console.log(entry);
+            primaryKeyDictionary[entry.TABLE_NAME] = entry.COLUMN_NAME
+        }
+
+    return primaryKeyDictionary;
+};
