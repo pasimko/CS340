@@ -56,3 +56,10 @@ export function UpdateQueryString(tableName, keyValues, primaryKey)
     const whereClause = ` WHERE ${primaryKey} = ${keyValues[primaryKey]}`
     return updateClause + setClause + whereClause;
 }
+
+export function DeleteQueryString(tableString, keyValues, primaryKey)
+{
+    console.log(keyValues);
+    const stringQuery = `DELETE FROM ${tableString} WHERE  ${primaryKey} = ${keyValues['deleteId']}` ;
+    return stringQuery;
+}

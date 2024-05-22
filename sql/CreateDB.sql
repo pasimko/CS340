@@ -18,7 +18,11 @@ CREATE TABLE IF NOT EXISTS `database`.`locations` (
   `name` VARCHAR(45) UNIQUE NULL,
   `is_indoors` TINYINT NOT NULL DEFAULT 1,
   `light_category` INT NOT NULL,
-  FOREIGN KEY (`light_category`) REFERENCES `database`.`light_categories` (`category_id`),
+  FOREIGN KEY (`light_category`) 
+  REFERENCES `database`.`light_categories` (`category_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+  ,
   PRIMARY KEY (`location_id`))
 ENGINE = InnoDB;
 
@@ -72,7 +76,10 @@ CREATE TABLE IF NOT EXISTS `database`.`actions` (
   `action_type` INT NOT NULL,
   `action_date` DATE NOT NULL DEFAULT (CURDATE()),
   `plants_plant_id` INT NOT NULL,
-  FOREIGN KEY (`action_type`) REFERENCES `database`.`action_types` (`action_type_id`),
+  FOREIGN KEY (`action_type`) 
+  REFERENCES `database`.`action_types` (`action_type_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   INDEX `fk_actions_plants1_idx` (`plants_plant_id` ASC),
   CONSTRAINT `fk_actions_plants1`
     FOREIGN KEY (`plants_plant_id`)

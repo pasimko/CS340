@@ -148,6 +148,21 @@ async function main() {
                     }
             }
         );
+        app.post(`/${page}/delete`, async (req, res) =>
+            {
+                const obj = JSON.parse(JSON.stringify(req.body));
+                if(req.body !== null)
+                    {
+                        const primaryKey = primaryKeyDictionary[page];
+                        const queryString = SQLQueries.DeleteQueryString(page, obj, primaryKey);
+                        await connection.execute(queryString);
+                        res.redirect(req.get('referer'));
+                    }
+                    else{
+                        res.status(401).send("Please check your stuff.");
+                    }
+            }
+        );
 
     });
     // Define routes
