@@ -18,6 +18,13 @@ export function GetTableDataTypes(tableName)
     return queryString;
 }
 
+export function GetPrimaryKeysQuery()
+{
+    return `SELECT TABLE_NAME, COLUMN_NAME
+    FROM information_schema.KEY_COLUMN_USAGE 
+    WHERE CONSTRAINT_NAME = 'PRIMARY'`;
+}
+
 export function GetFullDataTableQuery(page, fkResult)
 {
         // Construct the base query
@@ -29,4 +36,23 @@ export function GetFullDataTableQuery(page, fkResult)
             joinClauses += ` LEFT JOIN ${fk.REFERENCED_TABLE_NAME} ON ${page}.${fk.COLUMN_NAME} = ${fk.REFERENCED_TABLE_NAME}.${fk.REFERENCED_COLUMN_NAME}`;
         }
     return `${baseQuery} FROM ${page}${joinClauses}`;
+}
+
+export function UpdateQueryString(tableName, keyValues, primaryKey)
+{
+    let keyValueStrings = [];
+
+    for (let key in keyValues)
+    {
+        if( key != primaryKey)
+        {
+            keyValueStrings.push( `${key} = \'${keyValues[key]}\'`);
+        }
+    }
+
+    const setString = keyValueStrings.join(", ");
+    const updateClause = `UPDATE ${tableName} `;
+    let setClause = `SET ${setString}`
+    const whereClause = ` WHERE ${primaryKey} = ${keyValues[primaryKey]}`
+    return updateClause + setClause + whereClause;
 }

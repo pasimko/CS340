@@ -29,4 +29,28 @@ export function getColumnHeaderDictionary()
     return columnHeaderDictionary;
 }
 
+
+export function buildCustomDictionary(columnStrings )
+{
+    let stringHeaders = {};
     for (const columnString in columnStrings)
+        {
+            stringHeaders[columnString] = getColumnHeader(columnString);
+        }
+        return stringHeaders;
+}
+
+
+function getColumnHeader(stringColumnHeader)
+{
+    if (stringColumnHeader in columnHeaderDictionary)
+    {
+            return columnHeaderDictionary[stringColumnHeader];
+    }
+    let words = stringColumnHeader.toString().split(" ");
+    for (const word in words)
+    {
+        word[0].toUpperCase();
+    }
+    return words.join(" ");
+}
