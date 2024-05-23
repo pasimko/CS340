@@ -1,19 +1,19 @@
-DROP DATABASE IF EXISTS `database`;
+DROP DATABASE IF EXISTS `cs340_thurmesk`;
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
-CREATE SCHEMA IF NOT EXISTS `database` DEFAULT CHARACTER SET utf8 ;
-USE `database` ;
+CREATE SCHEMA IF NOT EXISTS `cs340_thurmesk` DEFAULT CHARACTER SET utf8 ;
+USE `cs340_thurmesk` ;
 
-CREATE TABLE IF NOT EXISTS `database`.`light_categories` (
+CREATE TABLE IF NOT EXISTS `cs340_thurmesk`.`light_categories` (
   `category_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) UNIQUE NULL,
   PRIMARY KEY (`category_id`))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `database`.`locations` (
+CREATE TABLE IF NOT EXISTS `cs340_thurmesk`.`locations` (
   `location_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) UNIQUE NULL,
   `is_indoors` TINYINT NOT NULL DEFAULT 1,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `database`.`locations` (
   PRIMARY KEY (`location_id`))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `database`.`plants` (
+CREATE TABLE IF NOT EXISTS `cs340_thurmesk`.`plants` (
   `plant_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   `date_added` DATE NOT NULL DEFAULT (CURDATE()),
@@ -35,12 +35,12 @@ CREATE TABLE IF NOT EXISTS `database`.`plants` (
   INDEX `fk_plants_locations1_idx` (`locations_location_id` ASC),
   CONSTRAINT `fk_plants_locations1`
     FOREIGN KEY (`locations_location_id`)
-    REFERENCES `database`.`locations` (`location_id`)
+    REFERENCES `cs340_thurmesk`.`locations` (`location_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `database`.`sensors` (
+CREATE TABLE IF NOT EXISTS `cs340_thurmesk`.`sensors` (
   `sensor_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `sensor_type` VARCHAR(45) NULL,
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `database`.`sensors` (
   PRIMARY KEY (`sensor_id`))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `database`.`updates` (
+CREATE TABLE IF NOT EXISTS `cs340_thurmesk`.`updates` (
   `update_id` INT NOT NULL AUTO_INCREMENT,
   `health_score` INT NOT NULL,
   `comment` VARCHAR(125) NULL,
@@ -60,18 +60,18 @@ CREATE TABLE IF NOT EXISTS `database`.`updates` (
   INDEX `fk_updates_plants1_idx` (`plants_plant_id` ASC),
   CONSTRAINT `fk_updates_plants1`
     FOREIGN KEY (`plants_plant_id`)
-    REFERENCES `database`.`plants` (`plant_id`)
+    REFERENCES `cs340_thurmesk`.`plants` (`plant_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `database`.`action_types` (
+CREATE TABLE IF NOT EXISTS `cs340_thurmesk`.`action_types` (
   `action_type_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) UNIQUE NULL,
   PRIMARY KEY (`action_type_id`))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `database`.`actions` (
+CREATE TABLE IF NOT EXISTS `cs340_thurmesk`.`actions` (
   `sensor_reading_id` INT PRIMARY KEY AUTO_INCREMENT,
   `action_type` INT NOT NULL,
   `action_date` DATE NOT NULL DEFAULT (CURDATE()),
@@ -83,12 +83,12 @@ CREATE TABLE IF NOT EXISTS `database`.`actions` (
   INDEX `fk_actions_plants1_idx` (`plants_plant_id` ASC),
   CONSTRAINT `fk_actions_plants1`
     FOREIGN KEY (`plants_plant_id`)
-    REFERENCES `database`.`plants` (`plant_id`)
+    REFERENCES `cs340_thurmesk`.`plants` (`plant_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `database`.`sensor_readings` (
+CREATE TABLE IF NOT EXISTS `cs340_thurmesk`.`sensor_readings` (
   `sensor_reading_id` INT PRIMARY KEY AUTO_INCREMENT,
   `plants_plant_id` INT NOT NULL,
   `sensors_sensor_id` INT NOT NULL,
@@ -99,12 +99,12 @@ CREATE TABLE IF NOT EXISTS `database`.`sensor_readings` (
   INDEX `fk_plants_has_sensors_plants_idx` (`plants_plant_id` ASC),
   CONSTRAINT `fk_plants_has_sensors_plants`
     FOREIGN KEY (`plants_plant_id`)
-    REFERENCES `database`.`plants` (`plant_id`)
+    REFERENCES `cs340_thurmesk`.`plants` (`plant_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_plants_has_sensors_sensors1`
     FOREIGN KEY (`sensors_sensor_id`)
-    REFERENCES `database`.`sensors` (`sensor_id`)
+    REFERENCES `cs340_thurmesk`.`sensors` (`sensor_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;

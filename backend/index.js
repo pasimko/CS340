@@ -1,8 +1,8 @@
 import express from "express";
 import mysql from "mysql2/promise";
+import dotenv from "dotenv";
 import path from "path";
-import { engine } from 'express-handlebars';
-
+import {engine} from 'express-handlebars';
 
 import https from 'https';
 import fs from 'fs';
@@ -17,8 +17,9 @@ let fkResults = {};
 let allSchemaFields = {};
 let formattedMetadata = {};
 
-async function main() {
-    console.log("Starting backend!");
+
+export async function runServer() {
+    dotenv.config();
 
     const connection = await mysql.createConnection({
         host: process.env.DB_HOST,
@@ -91,7 +92,7 @@ async function main() {
     }
     const primaryKeys = await connection.execute(SQLQueries.GetPrimaryKeysQuery());
     const primaryKeyDictionary = dataManipulations.GetPrimaryKeyDictionary(primaryKeys);
-    console.log(primaryKeyDictionary);
+
     const app = express();
     app.engine('handlebars', engine({ defaultLayout: 'main' }));
     app.set('view engine', 'handlebars');
@@ -173,7 +174,7 @@ async function main() {
         });
     });
     
-
+    
 
     if (process.env.IS_PROD === "true") {
         if (typeof process.env.CERT_PATH === 'undefined') {
@@ -197,11 +198,10 @@ async function main() {
         httpApp.all('*', (req, res) => res.redirect(['https://', req.get('Host'), req.url].join('')));
         httpApp.listen(80, () => console.log(`HTTP redirect server listening`));
     } else { // Dev server
-        app.listen(8000, () => {
-            console.log('HTTP server running on port 8000');
+        app.listen(process.env.PORT_NUMBER, () => {
+            console.log(`HTTP server running on port ${process.env.PORT_NUMBER}`);
         });
     }
 }
 
 
-main().catch(console.error);

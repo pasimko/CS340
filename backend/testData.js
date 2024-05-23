@@ -3,7 +3,7 @@ import mysql from 'mysql2/promise';
 import { readFile } from 'fs/promises';
 
 // Function to read SQL from file and execute it
-async function initializeDatabase() {
+export async function populateDatabase() {
     try {
         // Read SQL from file
         const sql = await readFile('sql/TestData.sql', 'utf8');
@@ -28,4 +28,4 @@ async function initializeDatabase() {
 }
 
 // Execute the function
-initializeDatabase();
+//initializeDatabase();
