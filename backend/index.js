@@ -147,9 +147,9 @@ export async function runServer() {
                     {
                         const primaryKey = primaryKeyDictionary[page];
                         const queryString = SQLQueries.UpdateQueryString(page, obj, primaryKey);
-                        console.log(queryString);
+   
                         await connection.query(queryString);
-                        console.log("Here!");
+ 
                         res.redirect(req.get('referer'));
                     }
                     else{
