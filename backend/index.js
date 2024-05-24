@@ -28,7 +28,6 @@ export async function runServer() {
         database: process.env.DB_NAME,
     });
 
-
     // This just uses the stuff we got once
     // In the future, we will need to fetch dynamically with every request
     for (const page of pages) {
@@ -109,6 +108,12 @@ export async function runServer() {
             testData[page] = [allSchemaFields[page], ...dataResult];
 
             // Render the corresponding Handlebars template
+            if(page == 'action_types')
+            {
+                res.render('action_types', {entries: testData[page]});
+            }
+            else
+            {
             res.render('crud', {
                 title: `${page.charAt(0).toUpperCase() + page.slice(1)} Page`,
                 pageName: page,
@@ -117,6 +122,7 @@ export async function runServer() {
                 tableMetadata: formattedMetadata[page],
                 headerStringDictionary: stringDictionary.buildCustomDictionary(allSchemaFields[page]),
             });
+        }
         });
         app.post(`/${page}/create`, async (req, res) =>
             {
@@ -141,7 +147,9 @@ export async function runServer() {
                     {
                         const primaryKey = primaryKeyDictionary[page];
                         const queryString = SQLQueries.UpdateQueryString(page, obj, primaryKey);
-                        await connection.execute(queryString);
+   
+                        await connection.query(queryString);
+ 
                         res.redirect(req.get('referer'));
                     }
                     else{
