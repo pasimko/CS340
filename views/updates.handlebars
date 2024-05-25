@@ -1,14 +1,13 @@
 <link rel="stylesheet" href="/css/form.css">
 
-  <label for="operation">Select Operation:</label>
-  <select id="operation" onchange="toggleForm()">
+<label for="operation">Select Operation:</label>
+<select id="operation" onchange="toggleForm()">
     <option disabled selected value> select an option </option>
     <option value="create">Create</option>
     <option value="update">Update</option>
-    <option value="delete">Delete</option>
-  </select>
+</select>
 
-  <div id="createForm" style="display: none;">
+<div id="createForm" style="display: none;">
     <!-- Create Entry Form -->
     <!---
         Formation of input type range taken from https://www.w3schools.com/html/html_form_input_types.asp
@@ -25,76 +24,83 @@
         <label for="update_date">Date:</label>
         <input type="text" id="update_date" name="update_date">
         <label for="update_date">Plant:</label>
-        <select id = "plants" name = "plants_plant_id">
+        <select id="plants" name="plants_plant_id">
             {{#each plantPickerOptions}}
-                    <option value="{{this.plant_id}}">{{this.name}}</option>
+                <option value={{@key}}>{{this}}</option>
             {{/each}}
         </select>
         <button type="submit">Create</button>
     </form>
-  </div>
+</div>
 
-  <div id="updateForm" style="display: none;">
+<div id="updateForm" style="display: none;">
     <!-- Update Entry Form -->
     <h2>Update Entry</h2>
-    <form method="POST" action="{{pageName}}/update">
-      <!-- create a form field for each entry. If null, empty text field. Otherwise, dropdown menu with each of `value`s as an option -->
-      <!-- loops over object -->
-      {{#each entries.[0]}}
-        <label for="{{@key}}">{{@key}}:</label>
-        <!-- Values of keys are referred to as `this` for some reason -->
-        <!-- Iterate over it if it exists to create a dropdown menu -->
-        {{#if this }}
-          <select name="{{@key}}" id="{{@key}}">
-            {{#each this}}
-              <option value="{{this}}">{{this}}</option>
+    <form method="POST" action="updates/update">
+        <select id="update_id_select" name="update_id">
+            <option disabled selected value> Update ID</option>
+            {{#each entries}}
+            {{#if this.update_id}}
+            <option value="{{this.update_id}}">{{this.update_id}}</option>
+            {{/if}}
             {{/each}}
-          </select>
-        {{else}}
-          <input type="text" id="{{@key}}" name="{{@key}}" placeholder="{{@key}}">
-        {{/if}}
-      {{/each}}
-      <button type="submit">Update</button>
+        </select>
+        <label for="health_score">Health Score (0-10):</label>
+        <input type="range" id="health_score" name="health_score" min="0" max="10">
+        <label for="comment">Comment:</label>
+        <input type="text" id="comment" name="comment">
+        <label for="image_location">Image Location (url):</label>
+        <input type="url" id="image_location" name="image_location">
+        <label for="update_date">Date:</label>
+        <input type="text" id="update_date" name="update_date">
+        <label for="update_date">Plant:</label>
+        <select id="plants" name="plants_plant_id">
+            {{#each plantPickerOptions}}
+                <option value={{@key}}>{{this}}</option>
+            {{/each}}
+        </select>
+        <button type="submit">Update</button>
+        </select>
     </form>
-  </div>
-
-  <div id="deleteForm" style="display: none;">
-    <!-- Delete Entry Form -->
-    <h2>Delete Entry</h2>
-    <form method="POST" action="{{pageName}}/delete">
-      <label for="deleteId">ID:</label>
-      <input type="number" id="deleteId" name="deleteId">
-      <button type="submit">Delete</button>
-    </form>
-  </div>
+</div>
 
 <table>
-  <thead>
-    <tr>
-      <!-- Get column name -->
-      {{#each entries.[0]}}
-        <th>{{lookup @root.headerStringDictionary @key}}</th>
-      {{/each}}
-    </tr>
-  </thead>
-  <tbody>
-    {{#each entries as |item index|}}<!--what even is this monstrocity???-->
-    <!-- Skip first (0th) index because it's the header info -->
-    {{#if index}}
-      <tr>
-        {{#each item as |value|}}
-          <td>{{value}}</td>
-        {{/each}}
-      </tr>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Health Score</th>
+            <th>Comment</th>
+            <th>Image URL</th>
+            <th>Update Date</th>
+            <th>Plant</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each entries}}
+        {{#if this.update_id}}
+        <tr data-value={{this.update_id}}>
+            <td>{{this.update_id}}</td>
+            <td>{{this.health_score}}</td>
+            <td>{{this.comment}}</td>
+            <td>{{this.image_location}}</td>
+            <td>{{this.update_date}}</td>
+            <td>{{lookup @root.plantPickerOptions this.plants_plant_id}}</td>
+            <td>
+                <form method="POST" action="updates/delete">
+                    <input style="display: none;" type="number" name="deleteId" value={{this.update_id}}>
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
         {{/if}}
-    {{/each}}
-  </tbody>
+        {{/each}}
+    </tbody>
 </table>
+
 <script>
     function toggleForm() {
         const operation = document.getElementById('operation').value;
         document.getElementById('createForm').style.display = operation === 'create' ? 'block' : 'none';
         document.getElementById('updateForm').style.display = operation === 'update' ? 'block' : 'none';
-        document.getElementById('deleteForm').style.display = operation === 'delete' ? 'block' : 'none';
     }
 </script>
