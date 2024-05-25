@@ -62,3 +62,58 @@ export function GetPlantFKDictionary(options)
     }
     return optionsDictionary;
 }
+
+export function GetSensorFKDictionary(options)
+{
+    let optionsDictionary = {};
+    for (let i = 0; i < options[0].length; i++)
+    {
+        const entry = options[0][i];
+        optionsDictionary[entry.sensor_id] = entry.name;
+    }
+    return optionsDictionary;
+}
+
+export function GetActionFKDictionary(options)
+{
+    let optionsDictionary = {};
+    for (let i = 0; i < options[0].length; i++)
+    {
+        const entry = options[0][i];
+        optionsDictionary[entry.action_id] = entry.name;
+    }
+    return optionsDictionary;
+}
+
+export function GetActionTypeFKDictionary(options)
+{
+    let optionsDictionary = {};
+    for (let i = 0; i < options[0].length; i++)
+    {
+        const entry = options[0][i];
+        optionsDictionary[entry.action_type_id] = entry.name;
+    }
+    return optionsDictionary;
+}
+
+export function GetLocationFKDictionary(options)
+{
+    let optionsDictionary = {};
+    for (let i = 0; i < options[0].length; i++)
+    {
+        const entry = options[0][i];
+        optionsDictionary[entry.location_id] = entry.name;
+    }
+    return optionsDictionary;
+}
+
+export function GetLightCategoryFKDictionary(options)
+{
+    let optionsDictionary = {};
+    for (let i = 0; i < options[0].length; i++)
+    {
+        const entry = options[0][i];
+        optionsDictionary[entry.category_id] = entry.name;
+    }
+    return optionsDictionary;
+}
