@@ -67,3 +67,8 @@ export function GetPrimaryKeyValueOfLightCategory(stringValue)
 {
     return `SELECT category_id FROM \`light_categories\` WHERE name = ${stringValue}`;
 }
+
+export function GetPlantFKInformation()
+{
+    return `SELECT plant_id, name FROM \`plants\``;
+}

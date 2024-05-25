@@ -17,7 +17,6 @@ let fkResults = {};
 let allSchemaFields = {};
 let formattedMetadata = {};
 
-
 export async function runServer() {
     dotenv.config();
 
@@ -116,6 +115,11 @@ export async function runServer() {
             {
                 res.render('light_categories', {title: `Light Categories Page`, entries: testData[page], pageName: 'light_categories', pages: pages});
             }
+            else if (page == 'updates')
+                {
+                    const plantPickerOptions = await connection.query(SQLQueries.GetPlantFKInformation());
+                    res.render('updates', {title: `Updates Page`, entries: testData[page], pageName: 'Updates', pages: pages, plantPickerOptions: plantPickerOptions[0]});
+                }
             else
             {
             res.render('crud', {
