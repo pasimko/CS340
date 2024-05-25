@@ -63,12 +63,32 @@ export function DeleteQueryString(tableString, keyValues, primaryKey)
     return stringQuery;
 }
 
-export function GetPrimaryKeyValueOfLightCategory(stringValue)
+export function GetPlantFKInformation()
 {
-    return `SELECT category_id FROM \`light_categories\` WHERE name = ${stringValue}`;
+    return `SELECT plant_id, name FROM \`plants\``;
+}
+
+export function GetActionTypeFKInformation()
+{
+    return `SELECT action_type_id, name FROM \`action_types\``;
+}
+
+export function GetLightCategoriesFKInformation()
+{
+    return `SELECT category_id, name FROM \`light_categories\``;
 }
 
 export function GetPlantFKInformation()
 {
     return `SELECT plant_id, name FROM \`plants\``;
+}
+
+export function GetLocationFKInformation()
+{
+    return `SELECT location_id, name FROM \`locations\``;
+}
+
+export function GetSensorsFKInformation()
+{
+    return `SELECT sensor_id, name FROM \`sensors\``;
 }
