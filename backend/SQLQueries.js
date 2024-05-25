@@ -63,3 +63,13 @@ export function DeleteQueryString(tableString, keyValues, primaryKey)
     const stringQuery = `DELETE FROM ${tableString} WHERE  ${primaryKey} = ${keyValues['deleteId']}` ;
     return stringQuery;
 }
+
+export function GetPrimaryKeyValueOfLightCategory(stringValue)
+{
+    return `SELECT category_id FROM \`light_categories\` WHERE name = ${stringValue}`;
+}
+
+export function GetPlantFKInformation()
+{
+ return `SELECT plant_id, name FROM \`plants\``;
+}

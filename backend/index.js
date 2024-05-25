@@ -17,7 +17,6 @@ let fkResults = {};
 let allSchemaFields = {};
 let formattedMetadata = {};
 
-
 export async function runServer() {
     dotenv.config();
 
@@ -109,6 +108,21 @@ export async function runServer() {
             testData[page] = [allSchemaFields[page], ...dataResult];
 
             // Render the corresponding Handlebars template
+            if(page == 'action_types')
+            {
+                res.render('action_types', {title: `Action Types Page`, entries: testData[page], pageName: 'action_types', pages: pages});
+            }
+            else if(page == 'light_categories')
+            {
+                res.render('light_categories', {title: `Light Categories Page`, entries: testData[page], pageName: 'light_categories', pages: pages});
+            }
+            else if (page == 'updates')
+                {
+                    const plantPickerOptions = await connection.query(SQLQueries.GetPlantFKInformation());
+                    res.render('updates', {title: `Updates Page`, entries: testData[page], pageName: 'Updates', pages: pages, plantPickerOptions: plantPickerOptions[0]});
+                }
+            else
+            {
             res.render('crud', {
                 title: `${page.charAt(0).toUpperCase() + page.slice(1)} Page`,
                 pageName: page,
