@@ -131,6 +131,7 @@ export async function runServer() {
                 tableMetadata: formattedMetadata[page],
                 headerStringDictionary: stringDictionary.buildCustomDictionary(allSchemaFields[page]),
             });
+        }
         });
         app.post(`/${page}/create`, async (req, res) =>
             {
