@@ -51,3 +51,14 @@ export function GetPrimaryKeyDictionary(sqlReturnValue)
 
     return primaryKeyDictionary;
 };
+
+export function GetPlantFKDictionary(options)
+{
+    let optionsDictionary = {};
+    for (let i = 0; i < options[0].length; i++)
+    {
+        const entry = options[0][i];
+        optionsDictionary[entry.plant_id] = entry.name;
+    }
+    return optionsDictionary;
+}
