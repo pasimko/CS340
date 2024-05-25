@@ -110,7 +110,11 @@ export async function runServer() {
             // Render the corresponding Handlebars template
             if(page == 'action_types')
             {
-                res.render('action_types', {entries: testData[page]});
+                res.render('action_types', {title: `Action Types Page`, entries: testData[page], pageName: 'action_types', pages: pages});
+            }
+            else if(page == 'light_categories')
+            {
+                res.render('light_categories', {title: `Light Categories Page`, entries: testData[page], pageName: 'light_categories', pages: pages});
             }
             else
             {
