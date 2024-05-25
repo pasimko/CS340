@@ -5,7 +5,6 @@
     <option disabled selected value> select an option </option>
     <option value="create">Create</option>
     <option value="update">Update</option>
-    <option value="delete">Delete</option>
 </select>
 
 <div id="createForm" style="display: none;">
@@ -65,16 +64,6 @@
     </form>
 </div>
 
-<div id="deleteForm" style="display: none;">
-    <!-- Delete Entry Form -->
-    <h2>Delete Entry</h2>
-    <form method="POST" action="{{pageName}}/delete">
-        <label for="deleteId">ID:</label>
-        <input type="number" id="deleteId" name="deleteId">
-        <button type="submit">Delete</button>
-    </form>
-</div>
-
 <table>
     <thead>
         <tr>
@@ -113,6 +102,5 @@
         const operation = document.getElementById('operation').value;
         document.getElementById('createForm').style.display = operation === 'create' ? 'block' : 'none';
         document.getElementById('updateForm').style.display = operation === 'update' ? 'block' : 'none';
-        document.getElementById('deleteForm').style.display = operation === 'delete' ? 'block' : 'none';
     }
 </script>

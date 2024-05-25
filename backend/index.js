@@ -118,8 +118,7 @@ export async function runServer() {
             else if (page == 'updates')
                 {
                     let plantPickerOptions = dataManipulations.GetPlantFKDictionary(await connection.query(SQLQueries.GetPlantFKInformation()));
-                    plantPickerOptions = JSON.parse(JSON.stringify(plantPickerOptions))
-                    console.log(plantPickerOptions);
+                    //plantPickerOptions = JSON.parse(JSON.stringify(plantPickerOptions))
                     res.render('updates', {title: `Updates Page`, entries: testData[page], pageName: 'Updates', pages: pages, plantPickerOptions: plantPickerOptions});
                 }
             else
