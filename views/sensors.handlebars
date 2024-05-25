@@ -1,0 +1,88 @@
+<link rel="stylesheet" href="/css/form.css">
+
+  <label for="operation">Select Operation:</label>
+  <select id="operation" onchange="toggleForm()">
+    <option disabled selected value> select an option </option>
+    <option value="create">Create</option>
+    <option value="update">Update</option>
+  </select>
+
+  <div id="createForm" style="display: none;">
+    <!-- Create Entry Form -->
+    <h2>Create Action Type</h2>
+    <form method="POST" action="sensors/create">
+        <label for="sensor_name">Name:</label>
+        <input type="text" id="sensor_name" name="name">
+        <label for="sensor_type">Type:</label>
+        <input type="text" id="sensor_type" name="sensor_type">
+        <label for="data_units">Units:</label>
+        <input type="text" id="data_units" name="data_units">
+        <label for="status">Status good:</label>
+        <input type="checkbox" id="status" name="status">
+        <button type="submit">Create</button>
+    </form>
+  </div>
+
+  <div id="updateForm" style="display: none;">
+    <!-- Update Entry Form -->
+    <h2>Update Action Type</h2>
+    <form method="POST" action="sensors/update">
+        <select id="sensor_id_select" name="sensor_id">
+            <option disabled selected value> Sensor ID</option>
+            {{#each entries}}
+            {{#if this.sensor_id}}
+            <option value="{{this.sensor_id}}">{{this.sensor_id}}</option>
+            {{/if}}
+            {{/each}}
+        </select>
+        <label for="sensor_name">Name:</label>
+        <input type="text" id="sensor_name" name="name">
+        <label for="sensor_type">Type:</label>
+        <input type="text" id="sensor_type" name="sensor_type">
+        <label for="data_units">Units:</label>
+        <input type="text" id="data_units" name="data_units">
+        <label for="status">Status good:</label>
+        <input type="checkbox" id="status" name="status">
+      <button type="submit">Update</button>
+    </form>
+  </div>
+
+  <table id="sensors_table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Units</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each entries}}
+            {{#if this.sensor_id}}
+            <tr data-value={{this.sensor_id}}>
+                <td>{{this.sensor_id}}</td>
+                <td>{{this.name}}</td>
+                <td>{{this.sensor_type}}</td>
+                <td>{{this.data_units}}</td>
+                <td>{{this.status}}</td>
+                <td>
+                    <form method="POST" action="sensors/delete" >
+                        <input style="display: none;" type="number" name="deleteId" value = {{this.sensor_id}}>
+                        <button type = "submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {{/if}}
+            {{/each}}
+        </tbody>
+</table>
+<script>
+    function toggleForm() {
+        const operation = document.getElementById('operation').value;
+        document.getElementById('createForm').style.display = operation === 'create' ? 'block' : 'none';
+        document.getElementById('updateForm').style.display = operation === 'update' ? 'block' : 'none';
+    }
+</script>
+
+

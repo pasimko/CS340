@@ -115,12 +115,14 @@ export async function runServer() {
             {
                 res.render('light_categories', {title: `Light Categories Page`, entries: testData[page], pageName: 'light_categories', pages: pages});
             }
-            else if (page == 'updates')
-                {
-                    let plantPickerOptions = dataManipulations.GetPlantFKDictionary(await connection.query(SQLQueries.GetPlantFKInformation()));
-                    //plantPickerOptions = JSON.parse(JSON.stringify(plantPickerOptions))
-                    res.render('updates', {title: `Updates Page`, entries: testData[page], pageName: 'Updates', pages: pages, plantPickerOptions: plantPickerOptions});
-                }
+            else if (page == 'updates') {
+                let plantPickerOptions = dataManipulations.GetPlantFKDictionary(await connection.query(SQLQueries.GetPlantFKInformation()));
+                //plantPickerOptions = JSON.parse(JSON.stringify(plantPickerOptions))
+                res.render('updates', { title: `Updates Page`, entries: testData[page], pageName: 'Updates', pages: pages, plantPickerOptions: plantPickerOptions });
+            }
+            else if (page == 'sensors') {
+                res.render('sensors', { title: `Sensors Page`, entries: testData[page], pageName: 'sensors', pages: pages });
+            }
             else
             {
             res.render('crud', {
