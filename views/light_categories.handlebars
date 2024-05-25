@@ -1,0 +1,72 @@
+<link rel="stylesheet" href="/css/form.css">
+
+  <label for="operation">Select Operation:</label>
+  <select id="operation" onchange="toggleForm()">
+    <option disabled selected value> select an option </option>
+    <option value="create">Create</option>
+    <option value="update">Update</option>
+  </select>
+
+  <div id="createForm" style="display: none;">
+    <!-- Create Entry Form -->
+    <h2>Create Action Type</h2>
+    <form method="POST" action="light_categories/create">
+        <label for="light_category_name">Name:</label>
+        <input type="text" id="light_category_name" name="name">
+        <button type="submit">Create</button>
+    </form>
+  </div>
+
+  <div id="updateForm" style="display: none;">
+    <!-- Update Entry Form -->
+    <h2>Update Action Type</h2>
+    <form method="POST" action="light_categories/update">
+        <label for="category_id">ID:</label>
+        <input type="text" id="category_id" name="category_id">
+        <label for="light_category_name">Name:</label>
+        <input type="text" id="light_category_name" name="name">
+      <button type="submit">Update</button>
+    </form>
+  </div>
+
+  <div id="deleteForm" style="display: none;">
+    <!-- Delete Entry Form -->
+    <h2>Delete Action Type</h2>
+    <form method="POST" action="light_categories/delete">
+      <label for="deleteId">ID:</label>
+      <input type="number" id="deleteId" name="deleteId">
+      <button type="submit" onclick = "">Delete</button>
+    </form>
+  </div>
+
+  <table id="light_categories_table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Action Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each entries}}
+            <tr data-value={{this.action_type_id}}>
+                <td>{{this.category_id}}</td>
+                <td>{{this.name}}</td>
+                <td>
+                    <form method="POST" action="light_categories/delete" body="hello">
+                        <input style="display: none;" type="number" name="deleteId" value = {{this.category_id}}>
+                        <button type = "submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+</table>
+<script>
+    function toggleForm() {
+        const operation = document.getElementById('operation').value;
+        document.getElementById('createForm').style.display = operation === 'create' ? 'block' : 'none';
+        document.getElementById('updateForm').style.display = operation === 'update' ? 'block' : 'none';
+    }
+</script>
+
+

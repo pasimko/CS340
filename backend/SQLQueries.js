@@ -59,7 +59,6 @@ export function UpdateQueryString(tableName, keyValues, primaryKey)
 
 export function DeleteQueryString(tableString, keyValues, primaryKey)
 {
-    console.log(keyValues);
     const stringQuery = `DELETE FROM ${tableString} WHERE  ${primaryKey} = ${keyValues['deleteId']}` ;
     return stringQuery;
 }
@@ -71,5 +70,5 @@ export function GetPrimaryKeyValueOfLightCategory(stringValue)
 
 export function GetPlantFKInformation()
 {
- return `SELECT plant_id, name FROM \`plants\``;
+    return `SELECT plant_id, name FROM \`plants\``;
 }
