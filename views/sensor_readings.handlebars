@@ -1,0 +1,109 @@
+<link rel="stylesheet" href="/css/form.css">
+
+<label for="operation">Select Operation:</label>
+<select id="operation" onchange="toggleForm()">
+    <option disabled selected value> select an option </option>
+    <option value="create">Create</option>
+    <option value="update">Update</option>
+</select>
+
+<div id="createForm" style="display: none;">
+    <!-- Create Entry Form -->
+    <!---
+        Formation of input type range taken from https://www.w3schools.com/html/html_form_input_types.asp
+        Accessed 5/25/2024
+    -->
+    <h2>Create Sensor Reading</h2>
+    <form method="POST" action="sensor_readings/create">
+        <label for="plants">Plant:</label>
+        <select id="plants" name="plants_plant_id">
+            {{#each plantPickerOptions}}
+                <option value={{@key}}>{{this}}</option>
+            {{/each}}
+        </select>
+        <label for="sensors">Sensor:</label>
+        <select id="sensors" name="sensors_sensor_id">
+            {{#each sensorPickerOptions}}
+                <option value={{@key}}>{{this}}</option>
+            {{/each}}
+        </select>        
+        <label for="date_time">Date/Time:</label>
+        <input type="text" id="date_time" name="date_time">
+        <label for="value">Value:</label>
+        <input type="text" id="value" name="value">
+        <button type="submit">Create</button>
+    </form>
+</div>
+
+<div id="updateForm" style="display: none;">
+    <!-- Update Entry Form -->
+    <h2>Update Entry</h2>
+    <form method="POST" action="sensor_readings/update">
+        <label for="sensor_reading_id_select">Reading ID:</label>
+        <select id="sensor_reading_id_select" name="sensor_reading_id">
+            <option disabled selected value> Sensor Reading ID</option>
+            {{#each entries}}
+            {{#if this.sensor_reading_id}}
+                <option value="{{this.sensor_reading_id}}">{{this.sensor_reading_id}}</option>
+            {{/if}}
+            {{/each}}
+        </select>
+        <label for="plants">Plant:</label>
+        <select id="plants" name="plants_plant_id">
+            {{#each plantPickerOptions}}
+                <option value={{@key}}>{{this}}</option>
+            {{/each}}
+        </select>
+        <label for="sensors">Sensor:</label>
+        <select id="sensors" name="sensors_sensor_id">
+            {{#each sensorPickerOptions}}
+                <option value={{@key}}>{{this}}</option>
+            {{/each}}
+        </select>        
+        <label for="date_time">Date/Time:</label>
+        <input type="text" id="date_time" name="date_time">
+        <label for="value">Value:</label>
+        <input type="text" id="value" name="value">
+        <button type="submit">Update</button>
+        </select>
+    </form>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Sensor</th>
+            <th>Plant</th>
+            <th>Date/Time</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each entries}}
+        {{#if this.sensor_reading_id}}
+        <tr data-value={{this.sensor_reading_id}}>
+            <td>{{this.sensor_reading_id}}</td>
+            <td>{{lookup @root.sensorPickerOptions this.sensors_sensor_id}}</td>
+            <td>{{lookup @root.plantPickerOptions this.plants_plant_id}}</td>
+            <td>{{this.date_time}}</td>
+            <td>{{this.value}}</td>
+            <td>
+                <form method="POST" action="sensor_readings/delete">
+                    <input style="display: none;" type="number" name="deleteId" value={{this.sensor_reading_id}}>
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {{/if}}
+        {{/each}}
+    </tbody>
+</table>
+
+<script>
+    function toggleForm() {
+        const operation = document.getElementById('operation').value;
+        document.getElementById('createForm').style.display = operation === 'create' ? 'block' : 'none';
+        document.getElementById('updateForm').style.display = operation === 'update' ? 'block' : 'none';
+    }
+</script>
