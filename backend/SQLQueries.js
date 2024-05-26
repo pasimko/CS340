@@ -63,12 +63,12 @@ export function DeleteQueryString(tableString, keyValues, primaryKey)
     return stringQuery;
 }
 
-export function GetPlantFKInformation()
+export function GetPlantsFKInformation()
 {
     return `SELECT plant_id, name FROM \`plants\``;
 }
 
-export function GetActionTypeFKInformation()
+export function GetActionTypesFKInformation()
 {
     return `SELECT action_type_id, name FROM \`action_types\``;
 }
@@ -78,7 +78,7 @@ export function GetLightCategoriesFKInformation()
     return `SELECT category_id, name FROM \`light_categories\``;
 }
 
-export function GetLocationFKInformation()
+export function GetLocationsFKInformation()
 {
     return `SELECT location_id, name FROM \`locations\``;
 }
