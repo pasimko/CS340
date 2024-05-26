@@ -135,11 +135,17 @@ export async function runServer() {
                 let locationPickerOptions = dataManipulations.GetLocationsFKDictionary(await connection.query(SQLQueries.GetLocationsFKInformation()));
                 res.render('plants', { title: `Plants Page`, entries: testData[page], pageName: 'Plants', pages: pages, locationPickerOptions: locationPickerOptions });
             }
-            else if (page == 'locations')
-                {
-                    let lightCategoriesPickerOptions = dataManipulations.GetLightCategoriesFKDictionary(await connection.query(SQLQueries.GetLightCategoriesFKInformation()));
-                    res.render('locations', { title: `Locations Page`, entries: testData[page], pageName: 'Locations', pages: pages, lightCategoriesPickerOptions: lightCategoriesPickerOptions });
-                }
+            else if (page == 'locations') 
+            {
+                let lightCategoriesPickerOptions = dataManipulations.GetLightCategoriesFKDictionary(await connection.query(SQLQueries.GetLightCategoriesFKInformation()));
+                res.render('locations', { title: `Locations Page`, entries: testData[page], pageName: 'Locations', pages: pages, lightCategoriesPickerOptions: lightCategoriesPickerOptions });
+            }
+            else if (page == 'actions') 
+            {
+                const actionPickerOptions = dataManipulations.GetActionTypesFKDictionary(await connection.query(SQLQueries.GetActionTypesFKInformation()));
+                const plantPickerOptions = dataManipulations.GetPlantsFKDictionary(await connection.query(SQLQueries.GetPlantsFKInformation()));
+                res.render('actions', { title: `Actions Page`, entries: testData[page], pageName: 'Actions', pages: pages, actionPickerOptions: actionPickerOptions, plantPickerOptions: plantPickerOptions });
+            }
 
             else
             {
