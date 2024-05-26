@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `cs340_thurmesk`.`action_types` (
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `cs340_thurmesk`.`actions` (
-  `sensor_reading_id` INT PRIMARY KEY AUTO_INCREMENT,
+  `action_id` INT PRIMARY KEY AUTO_INCREMENT,
   `action_type` INT NOT NULL,
   `action_date` DATE NOT NULL DEFAULT (CURDATE()),
   `plants_plant_id` INT NOT NULL,
