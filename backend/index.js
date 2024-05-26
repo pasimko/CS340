@@ -116,13 +116,18 @@ export async function runServer() {
                 res.render('light_categories', {title: `Light Categories Page`, entries: testData[page], pageName: 'light_categories', pages: pages});
             }
             else if (page == 'updates') {
-                let plantPickerOptions = dataManipulations.GetPlantFKDictionary(await connection.query(SQLQueries.GetPlantFKInformation()));
-                //plantPickerOptions = JSON.parse(JSON.stringify(plantPickerOptions))
+                let plantPickerOptions = dataManipulations.GetPlantsFKDictionary(await connection.query(SQLQueries.GetPlantFKInformation()));
                 res.render('updates', { title: `Updates Page`, entries: testData[page], pageName: 'Updates', pages: pages, plantPickerOptions: plantPickerOptions });
             }
             else if (page == 'sensors') {
-                res.render('sensors', { title: `Sensors Page`, entries: testData[page], pageName: 'sensors', pages: pages });
+                res.render('sensors', { title: `Sensors Page`, entries: testData[page], pageName: 'Sensors', pages: pages });
             }
+            else if (page == 'sensor_readings')
+                {
+                    let plantPickerOptions = dataManipulations.GetPlantsFKDictionary(await connection.query(SQLQueries.GetPlantFKInformation()));
+                    let sensorPickerOptions = dataManipulations.GetSensorsFKDictionary(await connection.query(SQLQueries.GetSensorsFKInformation()));
+                    res.render('sensor_readings', { title: `Sensor Readings Page`, entries: testData[page], pageName: 'Sensor Readings', pages: pages, plantPickerOptions: plantPickerOptions, sensorPickerOptions: sensorPickerOptions });
+                }
             else
             {
             res.render('crud', {

@@ -52,7 +52,7 @@ export function GetPrimaryKeyDictionary(sqlReturnValue)
     return primaryKeyDictionary;
 };
 
-export function GetPlantFKDictionary(options)
+export function GetPlantsFKDictionary(options)
 {
     let optionsDictionary = {};
     for (let i = 0; i < options[0].length; i++)
@@ -63,7 +63,7 @@ export function GetPlantFKDictionary(options)
     return optionsDictionary;
 }
 
-export function GetSensorFKDictionary(options)
+export function GetSensorsFKDictionary(options)
 {
     let optionsDictionary = {};
     for (let i = 0; i < options[0].length; i++)
@@ -74,7 +74,7 @@ export function GetSensorFKDictionary(options)
     return optionsDictionary;
 }
 
-export function GetActionFKDictionary(options)
+export function GetActionsFKDictionary(options)
 {
     let optionsDictionary = {};
     for (let i = 0; i < options[0].length; i++)
@@ -85,7 +85,7 @@ export function GetActionFKDictionary(options)
     return optionsDictionary;
 }
 
-export function GetActionTypeFKDictionary(options)
+export function GetActionTypesFKDictionary(options)
 {
     let optionsDictionary = {};
     for (let i = 0; i < options[0].length; i++)
@@ -96,7 +96,7 @@ export function GetActionTypeFKDictionary(options)
     return optionsDictionary;
 }
 
-export function GetLocationFKDictionary(options)
+export function GetLocationsFKDictionary(options)
 {
     let optionsDictionary = {};
     for (let i = 0; i < options[0].length; i++)
@@ -107,7 +107,7 @@ export function GetLocationFKDictionary(options)
     return optionsDictionary;
 }
 
-export function GetLightCategoryFKDictionary(options)
+export function GetLightCategoriesFKDictionary(options)
 {
     let optionsDictionary = {};
     for (let i = 0; i < options[0].length; i++)

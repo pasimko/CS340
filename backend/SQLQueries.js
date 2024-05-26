@@ -78,11 +78,6 @@ export function GetLightCategoriesFKInformation()
     return `SELECT category_id, name FROM \`light_categories\``;
 }
 
-export function GetPlantFKInformation()
-{
-    return `SELECT plant_id, name FROM \`plants\``;
-}
-
 export function GetLocationFKInformation()
 {
     return `SELECT location_id, name FROM \`locations\``;
