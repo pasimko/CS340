@@ -135,6 +135,12 @@ export async function runServer() {
                 let locationPickerOptions = dataManipulations.GetLocationsFKDictionary(await connection.query(SQLQueries.GetLocationsFKInformation()));
                 res.render('plants', { title: `Plants Page`, entries: testData[page], pageName: 'Plants', pages: pages, locationPickerOptions: locationPickerOptions });
             }
+            else if (page == 'locations')
+                {
+                    let lightCategoriesPickerOptions = dataManipulations.GetLightCategoriesFKDictionary(await connection.query(SQLQueries.GetLightCategoriesFKInformation()));
+                    res.render('locations', { title: `Locations Page`, entries: testData[page], pageName: 'Locations', pages: pages, lightCategoriesPickerOptions: lightCategoriesPickerOptions });
+                }
+
             else
             {
             res.render('crud', {

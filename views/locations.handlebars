@@ -1,0 +1,96 @@
+<link rel="stylesheet" href="/css/form.css">
+
+<label for="operation">Select Operation:</label>
+<select id="operation" onchange="toggleForm()">
+    <option disabled selected value> select an option </option>
+    <option value="create">Create</option>
+    <option value="update">Update</option>
+</select>
+
+<div id="createForm" style="display: none;">
+    <!-- Create Entry Form -->
+    <!---
+        Formation of input type range taken from https://www.w3schools.com/html/html_form_input_types.asp
+        Accessed 5/25/2024
+    -->
+    <h2>Create Location</h2>
+    <form method="POST" action="locations/create">
+        <label for="location_name">Name:</label>
+        <input type="text" id="location_name" name="name">
+        <label for="location_is_indoors">Is Indoors:</label>
+        <input type="checkbox" id="location_is_indoors" name="is_indoors">
+        <label for="light_category">Light Category:</label>
+        <select id="light_category" name="light_category">
+            {{#each lightCategoriesPickerOptions}}
+                <option value={{@key}}>{{this}}</option>
+            {{/each}}
+        </select>
+        <button type="submit">Create</button>
+    </form>
+</div>
+
+<div id="updateForm" style="display: none;">
+    <!-- Update Entry Form -->
+    <h2>Update Entry</h2>
+    <form method="POST" action="locations/update">
+        <select id="location_id_select" name="location_id">
+            <option disabled selected value>Location ID</option>
+            {{#each entries}}
+            {{#if this.update_id}}
+            <option value="{{this.location_id}}">{{this.location_id}}</option>
+            {{/if}}
+            {{/each}}
+        </select>
+        <label for="location_name">Name:</label>
+        <input type="text" id="location_name" name="name">
+        <label for="location_is_indoors">Is Indoors:</label>
+        <input type="checkbox" id="location_is_indoors" name="is_indoors">
+
+        <label for="date_added">Date:</label>
+        <input type="text" id="date_added" name="date_added">
+        <label for="light_category">Light Category:</label>
+        <select id="light_category" name="light_category">
+            {{#each lightCategoriesPickerOptions}}
+                <option value={{@key}}>{{this}}</option>
+            {{/each}}
+        </select>
+        <button type="submit">Update</button>
+    </form>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Is Indoors</th>
+            <th>Light Category</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each entries}}
+        {{#if this.location_id}}
+        <tr data-value={{this.location_id}}>
+            <td>{{this.location_id}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.is_indoors}}</td>
+            <td>{{lookup @root.lightCategoriesPickerOptions this.light_category}}</td>
+            <td>
+                <form method="POST" action="locations/delete">
+                    <input style="display: none;" type="number" name="deleteId" value={{this.location_id}}>
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {{/if}}
+        {{/each}}
+    </tbody>
+</table>
+
+<script>
+    function toggleForm() {
+        const operation = document.getElementById('operation').value;
+        document.getElementById('createForm').style.display = operation === 'create' ? 'block' : 'none';
+        document.getElementById('updateForm').style.display = operation === 'update' ? 'block' : 'none';
+    }
+</script>
