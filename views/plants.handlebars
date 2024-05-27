@@ -21,7 +21,7 @@
         <input type="text" id="date_added" name="date_added">
         <label for="locations">Location:</label>
         <select id="locations" name="locations_location_id">
-            {{#each locationPickerOptions}}
+            {{#each pickerOptions.locationPickerOptions}}
                 <option value={{@key}}>{{this}}</option>
             {{/each}}
         </select>
@@ -47,7 +47,7 @@
         <input type="text" id="date_added" name="date_added">
         <label for="locations">Location:</label>
         <select id="locations" name="locations_location_id">
-            {{#each locationPickerOptions}}
+            {{#each pickerOptions.locationPickerOptions}}
                 <option value={{@key}}>{{this}}</option>
             {{/each}}
         </select>
@@ -72,7 +72,7 @@
             <td>{{this.plant_id}}</td>
             <td>{{this.name}}</td>
             <td>{{this.date_added}}</td>
-            <td>{{lookup @root.locationPickerOptions this.locations_location_id}}</td>
+            <td>{{lookup @root.pickerOptions.locationPickerOptions this.locations_location_id}}</td>
             <td>
                 <form method="POST" action="plants/delete">
                     <input style="display: none;" type="number" name="deleteId" value={{this.update_id}}>

@@ -25,7 +25,7 @@
         <input type="text" id="update_date" name="update_date">
         <label for="update_date">Plant:</label>
         <select id="plants" name="plants_plant_id">
-            {{#each plantPickerOptions}}
+            {{#each pickerOptions.plantPickerOptions}}
                 <option value={{@key}}>{{this}}</option>
             {{/each}}
         </select>
@@ -55,7 +55,7 @@
         <input type="text" id="update_date" name="update_date">
         <label for="update_date">Plant:</label>
         <select id="plants" name="plants_plant_id">
-            {{#each plantPickerOptions}}
+            {{#each pickerOptions.plantPickerOptions}}
                 <option value={{@key}}>{{this}}</option>
             {{/each}}
         </select>
@@ -84,7 +84,7 @@
             <td>{{this.comment}}</td>
             <td>{{this.image_location}}</td>
             <td>{{this.update_date}}</td>
-            <td>{{lookup @root.plantPickerOptions this.plants_plant_id}}</td>
+            <td>{{lookup @root.pickerOptions.plantPickerOptions this.plants_plant_id}}</td>
             <td>
                 <form method="POST" action="updates/delete">
                     <input style="display: none;" type="number" name="deleteId" value={{this.update_id}}>

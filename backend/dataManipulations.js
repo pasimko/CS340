@@ -52,68 +52,24 @@ export function GetPrimaryKeyDictionary(sqlReturnValue)
     return primaryKeyDictionary;
 };
 
-export function GetPlantsFKDictionary(options)
+export function GetFKDictionary(entries, tableName, pkNameColumn, displayNameColumn)
 {
     let optionsDictionary = {};
-    for (let i = 0; i < options[0].length; i++)
-    {
-        const entry = options[0][i];
-        optionsDictionary[entry.plant_id] = entry.name;
-    }
-    return optionsDictionary;
+    const table = entries[tableName];
+
+    for(let i = 0; i < table.length; i++)
+        {
+            const entry = table[i];
+            optionsDictionary[entry[pkNameColumn]] = entry[displayNameColumn];
+        }
+    return optionsDictionary;   
 }
 
-export function GetSensorsFKDictionary(options)
+export function GetPageTitle(title)
 {
-    let optionsDictionary = {};
-    for (let i = 0; i < options[0].length; i++)
-    {
-        const entry = options[0][i];
-        optionsDictionary[entry.sensor_id] = entry.name;
-    }
-    return optionsDictionary;
-}
-
-export function GetActionsFKDictionary(options)
-{
-    let optionsDictionary = {};
-    for (let i = 0; i < options[0].length; i++)
-    {
-        const entry = options[0][i];
-        optionsDictionary[entry.action_id] = entry.name;
-    }
-    return optionsDictionary;
-}
-
-export function GetActionTypesFKDictionary(options)
-{
-    let optionsDictionary = {};
-    for (let i = 0; i < options[0].length; i++)
-    {
-        const entry = options[0][i];
-        optionsDictionary[entry.action_type_id] = entry.name;
-    }
-    return optionsDictionary;
-}
-
-export function GetLocationsFKDictionary(options)
-{
-    let optionsDictionary = {};
-    for (let i = 0; i < options[0].length; i++)
-    {
-        const entry = options[0][i];
-        optionsDictionary[entry.location_id] = entry.name;
-    }
-    return optionsDictionary;
-}
-
-export function GetLightCategoriesFKDictionary(options)
-{
-    let optionsDictionary = {};
-    for (let i = 0; i < options[0].length; i++)
-    {
-        const entry = options[0][i];
-        optionsDictionary[entry.category_id] = entry.name;
-    }
-    return optionsDictionary;
+    const noUnderscores = title.replace(`_`, ` `);
+    const words = noUnderscores.split(` `);
+    const capitalizedWords = words.map(word => word[0].toUpperCase() + word.substring(1));
+    const capitalizedPhrase = capitalizedWords.join(' ');
+    return capitalizedPhrase;
 }

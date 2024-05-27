@@ -17,13 +17,13 @@
     <form method="POST" action="sensor_readings/create">
         <label for="plants">Plant:</label>
         <select id="plants" name="plants_plant_id">
-            {{#each plantPickerOptions}}
+            {{#each pickerOptions.plantPickerOptions}}
                 <option value={{@key}}>{{this}}</option>
             {{/each}}
         </select>
         <label for="sensors">Sensor:</label>
         <select id="sensors" name="sensors_sensor_id">
-            {{#each sensorPickerOptions}}
+            {{#each pickerOptions.sensorPickerOptions}}
                 <option value={{@key}}>{{this}}</option>
             {{/each}}
         </select>        
@@ -50,13 +50,13 @@
         </select>
         <label for="plants">Plant:</label>
         <select id="plants" name="plants_plant_id">
-            {{#each plantPickerOptions}}
+            {{#each pickerOptions.plantPickerOptions}}
                 <option value={{@key}}>{{this}}</option>
             {{/each}}
         </select>
         <label for="sensors">Sensor:</label>
         <select id="sensors" name="sensors_sensor_id">
-            {{#each sensorPickerOptions}}
+            {{#each pickerOptions.sensorPickerOptions}}
                 <option value={{@key}}>{{this}}</option>
             {{/each}}
         </select>        
@@ -84,8 +84,8 @@
         {{#if this.sensor_reading_id}}
         <tr data-value={{this.sensor_reading_id}}>
             <td>{{this.sensor_reading_id}}</td>
-            <td>{{lookup @root.sensorPickerOptions this.sensors_sensor_id}}</td>
-            <td>{{lookup @root.plantPickerOptions this.plants_plant_id}}</td>
+            <td>{{lookup @root.pickerOptions.sensorPickerOptions this.sensors_sensor_id}}</td>
+            <td>{{lookup @root.pickerOptions.plantPickerOptions this.plants_plant_id}}</td>
             <td>{{this.date_time}}</td>
             <td>{{this.value}}</td>
             <td>
