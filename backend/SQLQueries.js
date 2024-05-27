@@ -62,28 +62,3 @@ export function DeleteQueryString(tableString, keyValues, primaryKey)
     const stringQuery = `DELETE FROM ${tableString} WHERE  ${primaryKey} = ${keyValues['deleteId']}` ;
     return stringQuery;
 }
-
-export function GetPlantsFKInformation()
-{
-    return `SELECT plant_id, name FROM \`plants\``;
-}
-
-export function GetActionTypesFKInformation()
-{
-    return `SELECT action_type_id, name FROM \`action_types\``;
-}
-
-export function GetLightCategoriesFKInformation()
-{
-    return `SELECT category_id, name FROM \`light_categories\``;
-}
-
-export function GetLocationsFKInformation()
-{
-    return `SELECT location_id, name FROM \`locations\``;
-}
-
-export function GetSensorsFKInformation()
-{
-    return `SELECT sensor_id, name FROM \`sensors\``;
-}

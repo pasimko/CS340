@@ -7,15 +7,12 @@ import {engine} from 'express-handlebars';
 import https from 'https';
 import fs from 'fs';
 
-import * as stringDictionary from './stringDictionary.js';
 import * as SQLQueries from './SQLQueries.js';
 import * as dataManipulations from './dataManipulations.js'
 
 const pages = ['actions', 'locations', 'plants', 'sensor_readings', 'sensors', 'updates', 'light_categories', 'action_types'];
 let testData = {};
 let fkResults = {};
-let allSchemaFields = {};
-let formattedMetadata = {};
 
 export async function runServer() {
     dotenv.config();
@@ -34,7 +31,6 @@ export async function runServer() {
         const [schemaResult] = await connection.execute(`DESCRIBE ${page}`);
         // Build schema as object (for help with forms)
         const schemaFields = Object.fromEntries(schemaResult.map(row => [row.Field, null]));
-
 
         // Get FK relationships from table
             // Yields eg
@@ -66,25 +62,9 @@ export async function runServer() {
             schemaFields[fk.COLUMN_NAME] = names.map(row => row.NAME);
         }
 
-        //schema fields will not be mutable on the user end, so there's no need to re-calculate them after this first time.
-        allSchemaFields[page] = schemaFields;
-
-        // Construct the base query
-        let baseQuery = `SELECT ${page}.*`;
-        // Construct JOIN clauses for foreign keys
-        let joinClauses = '';
-        for (const fk of fkResult) {
-            baseQuery += `, ${fk.REFERENCED_TABLE_NAME}.name AS ${fk.COLUMN_NAME}_name`;
-            joinClauses += ` LEFT JOIN ${fk.REFERENCED_TABLE_NAME} ON ${page}.${fk.COLUMN_NAME} = ${fk.REFERENCED_TABLE_NAME}.${fk.REFERENCED_COLUMN_NAME}`;
-        }
-        // Complete the query
-        const fullQuery = `${baseQuery} FROM ${page}${joinClauses}`;
-
-        const tableMetadataQuery = SQLQueries.GetTableDataTypes(page);
+        const fullQuery = SQLQueries.GetFullDataTableQuery(page,fkResult);
         // Fetch table data with the constructed query
         const [dataResult] = await connection.execute(fullQuery);
-        const metadata = await connection.execute(tableMetadataQuery);
-        formattedMetadata[page] = dataManipulations.FormatMetadataInformation(metadata);
 
         testData[page] = [schemaFields, ...dataResult];
     }
@@ -101,57 +81,19 @@ export async function runServer() {
 
     pages.forEach(page => {
         app.get(`/${page}`, async (req, res) => {
-
             const fullQuery = SQLQueries.GetFullDataTableQuery(page, fkResults[page]);
             const [dataResult] = await connection.execute(fullQuery);
-            testData[page] = [allSchemaFields[page], ...dataResult];
-
+            testData[page] = [...dataResult];
+            let pickerOptions = {};
+            pickerOptions.plantPickerOptions = dataManipulations.GetFKDictionary(testData, `plants`, `plant_id`,`name`);
+            pickerOptions.sensorPickerOptions = dataManipulations.GetFKDictionary(testData, `sensors`, `sensor_id`, `name`);
+            pickerOptions.locationPickerOptions = dataManipulations.GetFKDictionary(testData, `locations`, `location_id`, `name`);
+            pickerOptions.lightCategoriesPickerOptions = dataManipulations.GetFKDictionary(testData,`light_categories`, `category_id`, `name`);
+            pickerOptions.actionTypesPickerOptions = dataManipulations.GetFKDictionary(testData,`action_types`, `action_type_id`, `name`);
+            
             // Render the corresponding Handlebars template
-            if(page == 'action_types')
-            {
-                res.render('action_types', {title: `Action Types Page`, entries: testData[page], pageName: 'action_types', pages: pages});
-            }
-            else if(page == 'light_categories')
-            {
-                res.render('light_categories', {title: `Light Categories Page`, entries: testData[page], pageName: 'light_categories', pages: pages});
-            }
-            else if (page == 'updates') 
-            {
-                let plantPickerOptions = dataManipulations.GetPlantsFKDictionary(await connection.query(SQLQueries.GetPlantsFKInformation()));
-                res.render('updates', { title: `Updates Page`, entries: testData[page], pageName: 'Updates', pages: pages, plantPickerOptions: plantPickerOptions });
-            }
-            else if (page == 'sensors') 
-            {
-                res.render('sensors', { title: `Sensors Page`, entries: testData[page], pageName: 'Sensors', pages: pages });
-            }
-            else if (page == 'sensor_readings')
-            {
-                let plantPickerOptions = dataManipulations.GetPlantsFKDictionary(await connection.query(SQLQueries.GetPlantsFKInformation()));
-                let sensorPickerOptions = dataManipulations.GetSensorsFKDictionary(await connection.query(SQLQueries.GetSensorsFKInformation()));
-                res.render('sensor_readings', { title: `Sensor Readings Page`, entries: testData[page], pageName: 'Sensor Readings', pages: pages, plantPickerOptions: plantPickerOptions, sensorPickerOptions: sensorPickerOptions });
-            }
-            else if (page == 'plants')
-            {
-                let locationPickerOptions = dataManipulations.GetLocationsFKDictionary(await connection.query(SQLQueries.GetLocationsFKInformation()));
-                res.render('plants', { title: `Plants Page`, entries: testData[page], pageName: 'Plants', pages: pages, locationPickerOptions: locationPickerOptions });
-            }
-            else if (page == 'locations')
-                {
-                    let lightCategoriesPickerOptions = dataManipulations.GetLightCategoriesFKDictionary(await connection.query(SQLQueries.GetLightCategoriesFKInformation()));
-                    res.render('locations', { title: `Locations Page`, entries: testData[page], pageName: 'Locations', pages: pages, lightCategoriesPickerOptions: lightCategoriesPickerOptions });
-                }
+            res.render(page, { title: dataManipulations.GetPageTitle(page), entries: testData[page], pages: pages, pickerOptions: pickerOptions });
 
-            else
-            {
-            res.render('crud', {
-                title: `${page.charAt(0).toUpperCase() + page.slice(1)} Page`,
-                pageName: page,
-                pages: pages,
-                entries: testData[page],
-                tableMetadata: formattedMetadata[page],
-                headerStringDictionary: stringDictionary.buildCustomDictionary(allSchemaFields[page]),
-            });
-        }
         });
         app.post(`/${page}/create`, async (req, res) =>
             {

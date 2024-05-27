@@ -21,7 +21,7 @@
         <input type="checkbox" id="location_is_indoors" name="is_indoors">
         <label for="light_category">Light Category:</label>
         <select id="light_category" name="light_category">
-            {{#each lightCategoriesPickerOptions}}
+            {{#each pickerOptions.lightCategoriesPickerOptions}}
                 <option value={{@key}}>{{this}}</option>
             {{/each}}
         </select>
@@ -50,7 +50,7 @@
         <input type="text" id="date_added" name="date_added">
         <label for="light_category">Light Category:</label>
         <select id="light_category" name="light_category">
-            {{#each lightCategoriesPickerOptions}}
+            {{#each pickerOptions.lightCategoriesPickerOptions}}
                 <option value={{@key}}>{{this}}</option>
             {{/each}}
         </select>
@@ -74,7 +74,7 @@
             <td>{{this.location_id}}</td>
             <td>{{this.name}}</td>
             <td>{{this.is_indoors}}</td>
-            <td>{{lookup @root.lightCategoriesPickerOptions this.light_category}}</td>
+            <td>{{lookup @root.pickerOptions.lightCategoriesPickerOptions this.light_category}}</td>
             <td>
                 <form method="POST" action="locations/delete">
                     <input style="display: none;" type="number" name="deleteId" value={{this.location_id}}>
