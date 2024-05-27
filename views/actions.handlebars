@@ -1,6 +1,102 @@
-<form action="/actions" method="POST">
-    <label for="actionType">Action Type:</label>
-    <input type="text" id="actionType" name="actionType" required>
-    <!-- Add other input fields as needed -->
-    <button type="submit">Submit</button>
-</form>
+<link rel="stylesheet" href="/css/form.css">
+
+<label for="operation">Select Operation:</label>
+<select id="operation" onchange="toggleForm()">
+    <option disabled selected value> select an option </option>
+    <option value="create">Create</option>
+    <option value="update">Update</option>
+</select>
+
+<div id="createForm" style="display: none;">
+    <!-- Create Entry Form -->
+    <!---
+        Formation of input type range taken from https://www.w3schools.com/html/html_form_input_types.asp
+        Accessed 5/25/2024
+    -->
+    <h2>Create action</h2>
+    <form method="POST" action="actions/create">
+        <label for="action_type">Action:</label>
+        <select id="action_type" name="action_type">
+            {{#each actionPickerOptions}}
+                <option value={{@key}}>{{this}}</option>
+            {{/each}}
+        </select>
+        <label for="action_date">Date:</label>
+        <input type="text" id="action_date" name="action_date">
+        <label for="plants_plant_id">Plant:</label>
+        <select id="plants_plant_id" name="plants_plant_id">
+            {{#each plantPickerOptions}}
+                <option value={{@key}}>{{this}}</option>
+            {{/each}}
+        </select>
+        <button type="submit">Create</button>
+    </form>
+</div>
+
+<div id="updateForm" style="display: none;">
+    <!-- Update Entry Form -->
+    <h2>Update Entry</h2>
+    <form method="POST" action="actions/update">
+        <select id="action_id_select" name="action_id">
+            <option disabled selected value> Action ID</option>
+            {{#each entries}}
+            {{#if this.action_id}}
+            <option value="{{this.action_id}}">{{this.action_id}}</option>
+            {{/if}}
+            {{/each}}
+        </select>
+        <label for="action_type">Action:</label>
+        <select id="action_type" name="action_type">
+            {{#each actionPickerOptions}}
+                <option value={{@key}}>{{this}}</option>
+            {{/each}}
+        </select>
+        <label for="action_date">Date:</label>
+        <input type="text" id="action_date" name="action_date">
+        <label for="plants_plant_id">Plant:</label>
+        <select id="plants_plant_id" name="plants_plant_id">
+            {{#each plantPickerOptions}}
+                <option value={{@key}}>{{this}}</option>
+            {{/each}}
+        </select>
+        <button type="submit">Update</button>
+        </select>
+    </form>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Action</th>
+            <th>Date</th>
+            <th>Plant</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each entries}}
+        {{#if this.action_id}}
+        <tr data-value={{this.action_id}}>
+            <td>{{this.action_id}}</td>
+            <td>{{lookup @root.actionPickerOptions this.action_type}}</td>
+            <td>{{this.action_date}}</td>
+            <td>{{lookup @root.plantPickerOptions this.plants_plant_id}}</td>
+            <td>
+                <form method="POST" action="actions/delete">
+                    <input style="display: none;" type="number" name="deleteId" value={{this.action_id}}>
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {{/if}}
+        {{/each}}
+    </tbody>
+</table>
+
+<script>
+    function toggleForm() {
+        const operation = document.getElementById('operation').value;
+        document.getElementById('createForm').style.display = operation === 'create' ? 'block' : 'none';
+        document.getElementById('updateForm').style.display = operation === 'update' ? 'block' : 'none';
+    }
+</script>
