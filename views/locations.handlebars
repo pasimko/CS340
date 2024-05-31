@@ -22,7 +22,9 @@
         <label for="light_category">Light Category:</label>
         <select id="light_category" name="light_category">
             {{#each pickerOptions.lightCategoriesPickerOptions}}
+            {{#if this}}
                 <option value={{@key}}>{{this}}</option>
+                {{/if}}
             {{/each}}
         </select>
         <button type="submit">Create</button>
@@ -51,7 +53,9 @@
         <label for="light_category">Light Category:</label>
         <select id="light_category" name="light_category">
             {{#each pickerOptions.lightCategoriesPickerOptions}}
+            {{#if this}}
                 <option value={{@key}}>{{this}}</option>
+                {{/if}}
             {{/each}}
         </select>
         <button type="submit">Update</button>

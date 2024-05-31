@@ -22,7 +22,9 @@
         <label for="locations">Location:</label>
         <select id="locations" name="locations_location_id">
             {{#each pickerOptions.locationPickerOptions}}
+            {{#if this}}
                 <option value={{@key}}>{{this}}</option>
+                {{/if}}
             {{/each}}
         </select>
         <button type="submit">Create</button>
@@ -48,7 +50,9 @@
         <label for="locations">Location:</label>
         <select id="locations" name="locations_location_id">
             {{#each pickerOptions.locationPickerOptions}}
+            {{#if this}}
                 <option value={{@key}}>{{this}}</option>
+                {{/if}}
             {{/each}}
         </select>
         <button type="submit">Update</button>
@@ -75,7 +79,7 @@
             <td>{{lookup @root.pickerOptions.locationPickerOptions this.locations_location_id}}</td>
             <td>
                 <form method="POST" action="plants/delete">
-                    <input style="display: none;" type="number" name="deleteId" value={{this.update_id}}>
+                    <input style="display: none;" type="number" name="deleteId" value={{this.plant_id}}>
                     <button type="submit">Delete</button>
                 </form>
             </td>

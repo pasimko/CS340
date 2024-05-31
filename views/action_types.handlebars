@@ -49,10 +49,18 @@
         </thead>
         <tbody>
             {{#each entries}}
+            {{#if this.action_type_id}}
             <tr data-value={{this.action_type_id}}>
                 <td>{{this.action_type_id}}</td>
                 <td>{{this.name}}</td>
+                 <td>
+                    <form method="POST" action="action_types/delete">
+                        <input style="display: none;" type="number" name="deleteId" value = {{this.action_type_id}}>
+                        <button type = "submit">Delete</button>
+                    </form>
+                </td>
             </tr>
+            {{/if}}
             {{/each}}
         </tbody>
 </table>

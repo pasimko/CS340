@@ -48,16 +48,18 @@
         </thead>
         <tbody>
             {{#each entries}}
-            <tr data-value={{this.action_type_id}}>
+            {{#if this.category_id}}
+            <tr data-value={{this.category_id}}>
                 <td>{{this.category_id}}</td>
                 <td>{{this.name}}</td>
                 <td>
-                    <form method="POST" action="light_categories/delete" body="hello">
+                    <form method="POST" action="light_categories/delete">
                         <input style="display: none;" type="number" name="deleteId" value = {{this.category_id}}>
                         <button type = "submit">Delete</button>
                     </form>
                 </td>
             </tr>
+            {{/if}}
             {{/each}}
         </tbody>
 </table>

@@ -18,13 +18,17 @@
         <label for="plants">Plant:</label>
         <select id="plants" name="plants_plant_id">
             {{#each pickerOptions.plantPickerOptions}}
+            {{#if this}}
                 <option value={{@key}}>{{this}}</option>
+                {{/if}}
             {{/each}}
         </select>
         <label for="sensors">Sensor:</label>
         <select id="sensors" name="sensors_sensor_id">
             {{#each pickerOptions.sensorPickerOptions}}
+            {{#if this}}
                 <option value={{@key}}>{{this}}</option>
+                {{/if}}
             {{/each}}
         </select>        
         <label for="date_time">Date/Time:</label>
@@ -51,13 +55,17 @@
         <label for="plants">Plant:</label>
         <select id="plants" name="plants_plant_id">
             {{#each pickerOptions.plantPickerOptions}}
+            {{#if this}}
                 <option value={{@key}}>{{this}}</option>
+                {{/if}}
             {{/each}}
         </select>
         <label for="sensors">Sensor:</label>
         <select id="sensors" name="sensors_sensor_id">
             {{#each pickerOptions.sensorPickerOptions}}
+            {{#if this}}
                 <option value={{@key}}>{{this}}</option>
+                {{/if}}
             {{/each}}
         </select>        
         <label for="date_time">Date/Time:</label>
