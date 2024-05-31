@@ -17,7 +17,7 @@
     <form method="POST" action="actions/create">
         <label for="action_type">Action:</label>
         <select id="action_type" name="action_type">
-            {{#each actionPickerOptions}}
+            {{#each pickerOptions.actionTypesPickerOptions}}
                 <option value={{@key}}>{{this}}</option>
             {{/each}}
         </select>
@@ -25,7 +25,7 @@
         <input type="date" id="action_date" name="action_date">
         <label for="plants_plant_id">Plant:</label>
         <select id="plants_plant_id" name="plants_plant_id">
-            {{#each plantPickerOptions}}
+            {{#each pickerOptions.plantPickerOptions}}
                 <option value={{@key}}>{{this}}</option>
             {{/each}}
         </select>
@@ -47,7 +47,7 @@
         </select>
         <label for="action_type">Action:</label>
         <select id="action_type" name="action_type">
-            {{#each actionPickerOptions}}
+            {{#each pickerOptions.actionTypesPickerOptions}}
                 <option value={{@key}}>{{this}}</option>
             {{/each}}
         </select>
@@ -55,7 +55,7 @@
         <input type="text" id="action_date" name="action_date">
         <label for="plants_plant_id">Plant:</label>
         <select id="plants_plant_id" name="plants_plant_id">
-            {{#each plantPickerOptions}}
+            {{#each pickerOptions.plantPickerOptions}}
                 <option value={{@key}}>{{this}}</option>
             {{/each}}
         </select>
@@ -78,9 +78,9 @@
         {{#if this.action_id}}
         <tr data-value={{this.action_id}}>
             <td>{{this.action_id}}</td>
-            <td>{{lookup @root.actionPickerOptions this.action_type}}</td>
+            <td>{{lookup @root.pickerOptions.actionPickerOptions this.action_type}}</td>
             <td>{{this.action_date}}</td>
-            <td>{{lookup @root.plantPickerOptions this.plants_plant_id}}</td>
+            <td>{{lookup @root.pickerOptions.plantPickerOptions this.plants_plant_id}}</td>
             <td>
                 <form method="POST" action="actions/delete">
                     <input style="display: none;" type="number" name="deleteId" value={{this.action_id}}>

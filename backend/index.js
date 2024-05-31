@@ -55,7 +55,6 @@ export async function runServer() {
         fkResults[page] = fkResult;
 
         // Fill FK fields with names for CRUD menus
-        // TODO also do this with ENUMs
         for (const fk of fkResult) {
              // Get list of names
             const [names] = await connection.execute(`SELECT NAME FROM ${fk.REFERENCED_TABLE_NAME};`);
@@ -92,7 +91,7 @@ export async function runServer() {
             pickerOptions.actionTypesPickerOptions = dataManipulations.GetFKDictionary(testData,`action_types`, `action_type_id`, `name`);
             
             // Render the corresponding Handlebars template
-            res.render(page, { title: dataManipulations.GetPageTitle(page), entries: testData[page], pages: pages, pickerOptions: pickerOptions });
+            res.render(page, {title: dataManipulations.GetPageTitle(page), entries: testData[page], pages: pages, pickerOptions: pickerOptions });
 
         });
         app.post(`/${page}/create`, async (req, res) =>
