@@ -75,7 +75,7 @@
         <tr data-value={{this.plant_id}}>
             <td>{{this.plant_id}}</td>
             <td>{{this.name}}</td>
-            <td>{{this.date_added}}</td>
+            <td>{{formatDate this.date_added}}</td>
             <td>{{lookup @root.pickerOptions.locationPickerOptions this.locations_location_id}}</td>
             <td>
                 <form method="POST" action="plants/delete">

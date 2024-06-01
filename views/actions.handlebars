@@ -92,6 +92,30 @@
                 </form>
             </td>
         </tr>
+    <table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Action</th>
+            <th>Date</th>
+            <th>Plant</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each entries}}
+        {{#if this.action_id}}
+        <tr data-value={{this.action_id}}>
+            <td>{{this.action_id}}</td>
+            <td>{{lookup @root.pickerOptions.actionTypesPickerOptions this.action_type}}</td>
+            <td>{{formatDate this.action_date}}</td>
+            <td>{{lookup @root.pickerOptions.plantPickerOptions this.plants_plant_id}}</td>
+            <td>
+                <form method="POST" action="actions/delete">
+                    <input style="display: none;" type="number" name="deleteId" value={{this.action_id}}>
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
         {{/if}}
         {{/each}}
     </tbody>

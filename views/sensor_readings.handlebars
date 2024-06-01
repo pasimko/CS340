@@ -94,7 +94,7 @@
             <td>{{this.sensor_reading_id}}</td>
             <td>{{lookup @root.pickerOptions.sensorPickerOptions this.sensors_sensor_id}}</td>
             <td>{{lookup @root.pickerOptions.plantPickerOptions this.plants_plant_id}}</td>
-            <td>{{this.date_time}}</td>
+            <td>{{formatDateTime this.date_time}}</td>
             <td>{{this.value}}</td>
             <td>
                 <form method="POST" action="sensor_readings/delete">

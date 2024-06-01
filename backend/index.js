@@ -2,13 +2,14 @@ import express from "express";
 import mysql from "mysql2/promise";
 import dotenv from "dotenv";
 import path from "path";
-import {engine} from 'express-handlebars';
+import {create} from 'express-handlebars';
 
 import https from 'https';
 import fs from 'fs';
 
 import * as SQLQueries from './SQLQueries.js';
 import * as dataManipulations from './dataManipulations.js'
+import * as handlebarsHelpers from './handlebarsHelpers.js'
 
 const pages = {'actions': 'Actions', 'locations': 'Locations', 'plants': 'Plants', 'sensor_readings':'Sensor Readings', 'sensors': 'Sensors' ,'updates':'Updates', 'light_categories': 'Light Categories', 'action_types': 'Action Types'}
 let fullData = {}; //contains all data for all pages
@@ -36,15 +37,17 @@ export async function runServer() {
     const primaryKeyDictionary = dataManipulations.GetPrimaryKeyDictionary(primaryKeys);
 
     const app = express();
-    app.engine('handlebars', engine({ defaultLayout: 'main' }));
-    app.set('view engine', 'handlebars');
+    const handlebars = create({ defaultLayout: 'main' });
+    handlebars.handlebars.registerHelper('formatDate', handlebarsHelpers.formatDate);
+    handlebars.handlebars.registerHelper('formatDateTime', handlebarsHelpers.formatDateTime);
 
+    app.engine('handlebars', handlebars.engine);
+    app.set('view engine', 'handlebars');
     app.use(express.static('frontend'));
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }))
 
     Object.keys(pages).forEach(page => {
-        console.log('pagename: ', page);
         app.get(`/${page}`, async (req, res) => {
             const fullQuery = SQLQueries.GetFullDataTableQuery(page);
             const [dataResult] = await connection.execute(fullQuery);
@@ -63,7 +66,6 @@ export async function runServer() {
         app.post(`/${page}/create`, async (req, res) =>
             {
                 const obj = JSON.parse(JSON.stringify(req.body));
-               
                 if(req.body !== null)
                 {
                     const queryString = SQLQueries.InsertQueryString(page, obj);

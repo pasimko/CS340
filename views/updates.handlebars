@@ -87,7 +87,7 @@
             <td>{{this.health_score}}</td>
             <td>{{this.comment}}</td>
             <td>{{this.image_location}}</td>
-            <td>{{this.update_date}}</td>
+            <td>{{formatDate this.update_date}}</td>
             <td>{{lookup @root.pickerOptions.plantPickerOptions this.plants_plant_id}}</td>
             <td>
                 <form method="POST" action="updates/delete">
