@@ -10,7 +10,7 @@ import fs from 'fs';
 import * as SQLQueries from './SQLQueries.js';
 import * as dataManipulations from './dataManipulations.js'
 
-const pages = ['actions', 'locations', 'plants', 'sensor_readings', 'sensors', 'updates', 'light_categories', 'action_types'];
+const pages = {'actions': 'Actions', 'locations': 'Locations', 'plants': 'Plants', 'sensor_readings':'Sensor Readings', 'sensors': 'Sensors' ,'updates':'Updates', 'light_categories': 'Light Categories', 'action_types': 'Action Types'}
 let fullData = {}; //contains all data for all pages
 
 export async function runServer() {
@@ -24,7 +24,7 @@ export async function runServer() {
     });
 
     //establish all data in fullData object
-    for (const page of pages) {
+    for (const page of Object.keys(pages)) {
         // Fetch table schema
         const fullQuery = SQLQueries.GetFullDataTableQuery(page);
         // Fetch table data with the constructed query
@@ -43,7 +43,8 @@ export async function runServer() {
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }))
 
-    pages.forEach(page => {
+    Object.keys(pages).forEach(page => {
+        console.log('pagename: ', page);
         app.get(`/${page}`, async (req, res) => {
             const fullQuery = SQLQueries.GetFullDataTableQuery(page);
             const [dataResult] = await connection.execute(fullQuery);
@@ -56,7 +57,7 @@ export async function runServer() {
             pickerOptions.actionTypesPickerOptions = dataManipulations.GetFKDictionary(fullData,`action_types`, `action_type_id`, `name`);
             
             // Render the corresponding Handlebars template
-            res.render(page, {title: dataManipulations.GetPageTitle(page), entries: fullData[page], pages: pages, pickerOptions: pickerOptions });
+            res.render(page, {title: pages[page], entries: fullData[page], pages: pages, pickerOptions: pickerOptions });
 
         });
         app.post(`/${page}/create`, async (req, res) =>
