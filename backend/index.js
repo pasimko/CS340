@@ -11,8 +11,7 @@ import * as SQLQueries from './SQLQueries.js';
 import * as dataManipulations from './dataManipulations.js'
 
 const pages = ['actions', 'locations', 'plants', 'sensor_readings', 'sensors', 'updates', 'light_categories', 'action_types'];
-let testData = {};
-let fkResults = {};
+let fullData = {}; //contains all data for all pages
 
 export async function runServer() {
     dotenv.config();
@@ -24,49 +23,15 @@ export async function runServer() {
         database: process.env.DB_NAME,
     });
 
-    // This just uses the stuff we got once
-    // In the future, we will need to fetch dynamically with every request
+    //establish all data in fullData object
     for (const page of pages) {
         // Fetch table schema
-        const [schemaResult] = await connection.execute(`DESCRIBE ${page}`);
-        // Build schema as object (for help with forms)
-        const schemaFields = Object.fromEntries(schemaResult.map(row => [row.Field, null]));
-
-        // Get FK relationships from table
-            // Yields eg
-            //  [
-            //    {
-            //      COLUMN_NAME: 'plants_plant_id',
-            //      REFERENCED_TABLE_NAME: 'plants',
-            //      REFERENCED_COLUMN_NAME: 'plant_id'
-            //    }
-            //  ]
-        // Derived from:
-            // https://stackoverflow.com/questions/201621/how-do-i-see-all-foreign-keys-to-a-table-or-column
-        // 5/16/2024
-        const [fkResult] = await connection.execute(`
-            SELECT COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
-            FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
-            WHERE TABLE_NAME = ?
-            AND REFERENCED_TABLE_NAME IS NOT NULL
-            `, [page]);
-
-        //foreign keys will not be mutable on the user end, so there's no need to re-calculate them after this first time.
-        fkResults[page] = fkResult;
-
-        // Fill FK fields with names for CRUD menus
-        for (const fk of fkResult) {
-             // Get list of names
-            const [names] = await connection.execute(`SELECT NAME FROM ${fk.REFERENCED_TABLE_NAME};`);
-            schemaFields[fk.COLUMN_NAME] = names.map(row => row.NAME);
-        }
-
-        const fullQuery = SQLQueries.GetFullDataTableQuery(page,fkResult);
+        const fullQuery = SQLQueries.GetFullDataTableQuery(page);
         // Fetch table data with the constructed query
         const [dataResult] = await connection.execute(fullQuery);
-
-        testData[page] = [schemaFields, ...dataResult];
+        fullData[page] = [...dataResult];
     }
+
     const primaryKeys = await connection.execute(SQLQueries.GetPrimaryKeysQuery());
     const primaryKeyDictionary = dataManipulations.GetPrimaryKeyDictionary(primaryKeys);
 
@@ -80,18 +45,18 @@ export async function runServer() {
 
     pages.forEach(page => {
         app.get(`/${page}`, async (req, res) => {
-            const fullQuery = SQLQueries.GetFullDataTableQuery(page, fkResults[page]);
+            const fullQuery = SQLQueries.GetFullDataTableQuery(page);
             const [dataResult] = await connection.execute(fullQuery);
-            testData[page] = [...dataResult];
+            fullData[page] = [...dataResult];
             let pickerOptions = {};
-            pickerOptions.plantPickerOptions = dataManipulations.GetFKDictionary(testData, `plants`, `plant_id`,`name`);
-            pickerOptions.sensorPickerOptions = dataManipulations.GetFKDictionary(testData, `sensors`, `sensor_id`, `name`);
-            pickerOptions.locationPickerOptions = dataManipulations.GetFKDictionary(testData, `locations`, `location_id`, `name`);
-            pickerOptions.lightCategoriesPickerOptions = dataManipulations.GetFKDictionary(testData,`light_categories`, `category_id`, `name`);
-            pickerOptions.actionTypesPickerOptions = dataManipulations.GetFKDictionary(testData,`action_types`, `action_type_id`, `name`);
+            pickerOptions.plantPickerOptions = dataManipulations.GetFKDictionary(fullData, `plants`, `plant_id`,`name`);
+            pickerOptions.sensorPickerOptions = dataManipulations.GetFKDictionary(fullData, `sensors`, `sensor_id`, `name`);
+            pickerOptions.locationPickerOptions = dataManipulations.GetFKDictionary(fullData, `locations`, `location_id`, `name`);
+            pickerOptions.lightCategoriesPickerOptions = dataManipulations.GetFKDictionary(fullData,`light_categories`, `category_id`, `name`);
+            pickerOptions.actionTypesPickerOptions = dataManipulations.GetFKDictionary(fullData,`action_types`, `action_type_id`, `name`);
             
             // Render the corresponding Handlebars template
-            res.render(page, {title: dataManipulations.GetPageTitle(page), entries: testData[page], pages: pages, pickerOptions: pickerOptions });
+            res.render(page, {title: dataManipulations.GetPageTitle(page), entries: fullData[page], pages: pages, pickerOptions: pickerOptions });
 
         });
         app.post(`/${page}/create`, async (req, res) =>

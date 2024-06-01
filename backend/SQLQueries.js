@@ -25,17 +25,13 @@ export function GetPrimaryKeysQuery()
     WHERE CONSTRAINT_NAME = 'PRIMARY'`;
 }
 
-export function GetFullDataTableQuery(page, fkResult)
+export function GetFullDataTableQuery(page)
 {
         // Construct the base query
         let baseQuery = `SELECT ${page}.*`;
         // Construct JOIN clauses for foreign keys
-        let joinClauses = '';
-        for (const fk of fkResult) {
-            baseQuery += `, ${fk.REFERENCED_TABLE_NAME}.name AS ${fk.COLUMN_NAME}_name`;
-            joinClauses += ` LEFT JOIN ${fk.REFERENCED_TABLE_NAME} ON ${page}.${fk.COLUMN_NAME} = ${fk.REFERENCED_TABLE_NAME}.${fk.REFERENCED_COLUMN_NAME}`;
-        }
-    return `${baseQuery} FROM ${page}${joinClauses}`;
+
+    return `${baseQuery} FROM ${page}`;
 }
 
 export function UpdateQueryString(tableName, keyValues, primaryKey)
