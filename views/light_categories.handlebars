@@ -9,7 +9,7 @@
 
   <div id="createForm" style="display: none;">
     <!-- Create Entry Form -->
-    <h2>Create Action Type</h2>
+    <h2>Create Light Category</h2>
     <form method="POST" action="light_categories/create">
         <label for="light_category_name">Name:</label>
         <input type="text" id="light_category_name" name="name">
@@ -19,7 +19,7 @@
 
   <div id="updateForm" style="display: none;">
     <!-- Update Entry Form -->
-    <h2>Update Action Type</h2>
+    <h2>Update Light Category</h2>
     <form method="POST" action="light_categories/update">
         <label for="category_id">ID:</label>
         <input type="text" id="category_id" name="category_id">
@@ -29,21 +29,11 @@
     </form>
   </div>
 
-  <div id="deleteForm" style="display: none;">
-    <!-- Delete Entry Form -->
-    <h2>Delete Action Type</h2>
-    <form method="POST" action="light_categories/delete">
-      <label for="deleteId">ID:</label>
-      <input type="number" id="deleteId" name="deleteId">
-      <button type="submit" onclick = "">Delete</button>
-    </form>
-  </div>
-
   <table id="light_categories_table">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Action Type</th>
+                <th>Light Category</th>
             </tr>
         </thead>
         <tbody>

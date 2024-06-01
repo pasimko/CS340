@@ -8,12 +8,7 @@
 </select>
 
 <div id="createForm" style="display: none;">
-    <!-- Create Entry Form -->
-    <!---
-        Formation of input type range taken from https://www.w3schools.com/html/html_form_input_types.asp
-        Accessed 5/25/2024
-    -->
-    <h2>Create action</h2>
+    <h2>Create Action</h2>
     <form method="POST" action="actions/create">
         <label for="action_type">Action:</label>
         <select id="action_type" name="action_type">
@@ -35,7 +30,7 @@
 
 <div id="updateForm" style="display: none;">
     <!-- Update Entry Form -->
-    <h2>Update Entry</h2>
+    <h2>Update Action</h2>
     <form method="POST" action="actions/update">
         <select id="action_id_select" name="action_id">
             <option disabled selected value> Action ID</option>
@@ -54,11 +49,11 @@
             {{/each}}
         </select>
         <label for="action_date">Date:</label>
-        <input type="text" id="action_date" name="action_date">
+        <input type="date" id="action_date" name="action_date">
         <label for="plants_plant_id">Plant:</label>
         <select id="plants_plant_id" name="plants_plant_id">
             {{#each pickerOptions.plantPickerOptions}}
-                {{#if this.action_id}}
+                {{#if this.plants_plant_id}}
                     <option value={{@key}}>{{this}}</option>
                 {{/if}}
             {{/each}}
