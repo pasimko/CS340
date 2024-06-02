@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `cs340_thurmesk`.`locations` (
   `is_indoors` TINYINT NOT NULL DEFAULT 1,
   `light_category` INT NOT NULL,
   FOREIGN KEY (`light_category`) 
-  REFERENCES `database`.`light_categories` (`category_id`)
+  REFERENCES `cs340_thurmesk`.`light_categories` (`category_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE
   ,
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `cs340_thurmesk`.`actions` (
   `action_date` DATE NOT NULL DEFAULT (CURDATE()),
   `plants_plant_id` INT NOT NULL,
   FOREIGN KEY (`action_type`) 
-  REFERENCES `database`.`action_types` (`action_type_id`)
+  REFERENCES `cs340_thurmesk`.`action_types` (`action_type_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   INDEX `fk_actions_plants1_idx` (`plants_plant_id` ASC),
