@@ -53,7 +53,7 @@
         <label for="plants_plant_id">Plant:</label>
         <select id="plants_plant_id" name="plants_plant_id">
             {{#each pickerOptions.plantPickerOptions}}
-                {{#if this.plants_plant_id}}
+                {{#if this}}
                     <option value={{@key}}>{{this}}</option>
                 {{/if}}
             {{/each}}
