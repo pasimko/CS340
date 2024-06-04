@@ -33,7 +33,7 @@
         <select id="plant_id_select" name="plant_id">
             <option disabled selected value> Update ID</option>
             {{#each entries}}
-            {{#if this.update_id}}
+            {{#if this.plant_id}}
             <option value="{{this.plant_id}}">{{this.plant_id}}</option>
             {{/if}}
             {{/each}}
