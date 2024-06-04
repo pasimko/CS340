@@ -22,7 +22,14 @@
     <h2>Update Action Type</h2>
     <form method="POST" action="action_types/update">
         <label for="action_type_id">ID:</label>
-        <input type="text" id="action_type_id" name="action_type_id">
+        <select id="action_type_id_select" name="action_type_id">
+            <option disabled selected value>Action Type ID</option>
+            {{#each entries}}
+            {{#if this.action_type_id}}
+            <option value="{{this.action_type_id}}">{{this.action_type_id}}</option>
+            {{/if}}
+            {{/each}}
+        </select>
         <label for="action_type_name">Name:</label>
         <input type="text" id="action_type_name" name="name">
       <button type="submit">Update</button>
