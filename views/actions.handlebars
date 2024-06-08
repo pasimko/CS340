@@ -11,15 +11,15 @@
     <h2>Create Action</h2>
     <form method="POST" action="actions/create">
         <label for="action_type">Action:</label>
-        <select id="action_type" name="action_type">
+        <select id="action_type" name="action_type" required>
             {{#each pickerOptions.actionTypesPickerOptions}}
                 <option value={{@key}}>{{this}}</option>
             {{/each}}
         </select>
         <label for="action_date">Date:</label>
-        <input type="date" id="action_date" name="action_date">
+        <input type="date" id="action_date" name="action_date" required>
         <label for="plants_plant_id">Plant:</label>
-        <select id="plants_plant_id" name="plants_plant_id">
+        <select id="plants_plant_id" name="plants_plant_id" required>
             {{#each pickerOptions.plantPickerOptions}}
                 <option value={{@key}}>{{this}}</option>
             {{/each}}
@@ -32,7 +32,7 @@
     <!-- Update Entry Form -->
     <h2>Update Action</h2>
     <form method="POST" action="actions/update">
-        <select id="action_id_select" name="action_id">
+        <select id="action_id_select" name="action_id" required>
             <option disabled selected value> Action ID</option>
             {{#each entries}}
                 {{#if this.action_id}}
@@ -41,7 +41,7 @@
             {{/each}}
         </select>
         <label for="action_type">Action:</label>
-        <select id="action_type" name="action_type">
+        <select id="action_type" name="action_type" required>
             {{#each pickerOptions.actionTypesPickerOptions}}
                 {{#if this}}
                     <option value={{@key}}>{{this}}</option>
@@ -49,9 +49,9 @@
             {{/each}}
         </select>
         <label for="action_date">Date:</label>
-        <input type="date" id="action_date" name="action_date">
+        <input type="date" id="action_date" name="action_date" required>
         <label for="plants_plant_id">Plant:</label>
-        <select id="plants_plant_id" name="plants_plant_id">
+        <select id="plants_plant_id" name="plants_plant_id" required>
             {{#each pickerOptions.plantPickerOptions}}
                 {{#if this}}
                     <option value={{@key}}>{{this}}</option>

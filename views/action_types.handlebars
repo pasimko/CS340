@@ -12,7 +12,7 @@
     <h2>Create Action Type</h2>
     <form method="POST" action="action_types/create">
         <label for="action_type_name">Name:</label>
-        <input type="text" id="action_type_name" name="name">
+        <input type="text" id="action_type_name" name="name" required>
         <button type="submit">Create</button>
     </form>
   </div>
@@ -22,7 +22,7 @@
     <h2>Update Action Type</h2>
     <form method="POST" action="action_types/update">
         <label for="action_type_id">ID:</label>
-        <select id="action_type_id_select" name="action_type_id">
+        <select id="action_type_id_select" name="action_type_id" required>
             <option disabled selected value>Action Type ID</option>
             {{#each entries}}
             {{#if this.action_type_id}}

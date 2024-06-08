@@ -11,9 +11,9 @@
     <h2>Create Plant</h2>
     <form method="POST" action="plants/create">
         <label for="plant_name">Name:</label>
-        <input type="text" id="plant_name" name="name">
+        <input type="text" id="plant_name" name="name" required>
         <label for="date_added">Date:</label>
-        <input type="date" id="date_added" name="date_added">
+        <input type="date" id="date_added" name="date_added" required>
         <label for="locations">Location:</label>
         <select id="locations" name="locations_location_id">
             {{#each pickerOptions.locationPickerOptions}}
@@ -30,7 +30,7 @@
     <!-- Update Entry Form -->
     <h2>Update Entry</h2>
     <form method="POST" action="plants/update">
-        <select id="plant_id_select" name="plant_id">
+        <select id="plant_id_select" name="plant_id" required>
             <option disabled selected value> Update ID</option>
             {{#each entries}}
             {{#if this.plant_id}}
@@ -39,11 +39,11 @@
             {{/each}}
         </select>
         <label for="plant_name">Name:</label>
-        <input type="text" id="plant_name" name="name">
+        <input type="text" id="plant_name" name="name" required>
         <label for="date_added">Date:</label>
-        <input type="date" id="date_added" name="date_added">
+        <input type="date" id="date_added" name="date_added" required>
         <label for="locations">Location:</label>
-        <select id="locations" name="locations_location_id">
+        <select id="locations" name="locations_location_id" required>
             {{#each pickerOptions.locationPickerOptions}}
             {{#if this}}
                 <option value={{@key}}>{{this}}</option>

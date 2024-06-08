@@ -11,7 +11,7 @@ import * as SQLQueries from './SQLQueries.js';
 import * as dataManipulations from './dataManipulations.js'
 import * as handlebarsHelpers from './handlebarsHelpers.js'
 
-const pages = {'actions': 'Actions', 'locations': 'Locations', 'plants': 'Plants', 'sensor_readings':'Sensor Readings', 'sensors': 'Sensors' ,'updates':'Updates', 'light_categories': 'Light Categories', 'action_types': 'Action Types'}
+const pages = {'sensors':'Sensors', 'light_categories':'Light Categories', 'action_types':'Action Types', 'actions':'Actions', 'plants':'Plants', 'locations':'Locations', 'sensor_readings':'Sensor Readings', 'updates':'Updates'};
 let fullData = {}; //contains all data for all pages
 
 export async function runServer() {

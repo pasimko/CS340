@@ -16,15 +16,15 @@
     <h2>Create Update</h2>
     <form method="POST" action="updates/create">
         <label for="health_score">Health Score (0-10):</label>
-        <input type="range" id="health_score" name="health_score" min="0" max="10">
+        <input type="range" id="health_score" name="health_score" min="0" max="10" required>
         <label for="comment">Comment:</label>
         <input type="text" id="comment" name="comment">
         <label for="image_location">Image Location (url):</label>
         <input type="url" id="image_location" name="image_location">
         <label for="update_date">Date:</label>
-        <input type="date" id="update_date" name="update_date">
+        <input type="date" id="update_date" name="update_date" required>
         <label for="update_date">Plant:</label>
-        <select id="plants" name="plants_plant_id">
+        <select id="plants" name="plants_plant_id" required>
             {{#each pickerOptions.plantPickerOptions}}
             {{#if this}}
                 <option value={{@key}}>{{this}}</option>
@@ -39,7 +39,7 @@
     <!-- Update Entry Form -->
     <h2>Update Entry</h2>
     <form method="POST" action="updates/update">
-        <select id="update_id_select" name="update_id">
+        <select id="update_id_select" name="update_id" required>
             <option disabled selected value> Update ID</option>
             {{#each entries}}
             {{#if this.update_id}}
@@ -48,15 +48,15 @@
             {{/each}}
         </select>
         <label for="health_score">Health Score (0-10):</label>
-        <input type="range" id="health_score" name="health_score" min="0" max="10">
+        <input type="range" id="health_score" name="health_score" min="0" max="10" required>
         <label for="comment">Comment:</label>
-        <input type="text" id="comment" name="comment">
+        <input type="text" id="comment" name="comment" required>
         <label for="image_location">Image Location (url):</label>
         <input type="url" id="image_location" name="image_location">
         <label for="update_date">Date:</label>
-        <input type="text" id="update_date" name="update_date">
+        <input type="text" id="update_date" name="update_date" required>
         <label for="update_date">Plant:</label>
-        <select id="plants" name="plants_plant_id">
+        <select id="plants" name="plants_plant_id" required>
             {{#each pickerOptions.plantPickerOptions}}
             {{#if this}}
                 <option value={{@key}}>{{this}}</option>

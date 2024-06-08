@@ -12,13 +12,13 @@
     <h2>Create Sensor</h2>
     <form method="POST" action="sensors/create">
         <label for="sensor_name">Name:</label>
-        <input type="text" id="sensor_name" name="name">
+        <input type="text" id="sensor_name" name="name" required>
         <label for="sensor_type">Type:</label>
-        <input type="text" id="sensor_type" name="sensor_type">
+        <input type="text" id="sensor_type" name="sensor_type" required>
         <label for="data_units">Units:</label>
-        <input type="text" id="data_units" name="data_units">
+        <input type="text" id="data_units" name="data_units" required>
         <label for="status">Status good:</label>
-        <input type="checkbox" id="status" name="status">
+        <input type="checkbox" id="status" name="status" required>
         <button type="submit">Create</button>
     </form>
   </div>
@@ -27,7 +27,7 @@
     <!-- Update Entry Form -->
     <h2>Update Sensor</h2>
     <form method="POST" action="sensors/update">
-        <select id="sensor_id_select" name="sensor_id">
+        <select id="sensor_id_select" name="sensor_id" required>
             <option disabled selected value> Sensor ID</option>
             {{#each entries}}
             {{#if this.sensor_id}}
@@ -36,13 +36,13 @@
             {{/each}}
         </select>
         <label for="sensor_name">Name:</label>
-        <input type="text" id="sensor_name" name="name">
+        <input type="text" id="sensor_name" name="name" required>
         <label for="sensor_type">Type:</label>
-        <input type="text" id="sensor_type" name="sensor_type">
+        <input type="text" id="sensor_type" name="sensor_type" required>
         <label for="data_units">Units:</label>
-        <input type="text" id="data_units" name="data_units">
+        <input type="text" id="data_units" name="data_units" required>
         <label for="status">Status good:</label>
-        <input type="checkbox" id="status" name="status">
+        <input type="checkbox" id="status" name="status" required>
       <button type="submit">Update</button>
     </form>
   </div>

@@ -11,7 +11,7 @@
     <h2>Create Sensor Reading</h2>
     <form method="POST" action="sensor_readings/create">
         <label for="plants">Plant:</label>
-        <select id="plants" name="plants_plant_id">
+        <select id="plants" name="plants_plant_id" required>
             {{#each pickerOptions.plantPickerOptions}}
             {{#if this}}
                 <option value={{@key}}>{{this}}</option>
@@ -19,7 +19,7 @@
             {{/each}}
         </select>
         <label for="sensors">Sensor:</label>
-        <select id="sensors" name="sensors_sensor_id">
+        <select id="sensors" name="sensors_sensor_id" required>
             {{#each pickerOptions.sensorPickerOptions}}
             {{#if this}}
                 <option value={{@key}}>{{this}}</option>
@@ -27,9 +27,9 @@
             {{/each}}
         </select>        
         <label for="date_time">Date/Time:</label>
-        <input type="datetime-local" id="date_time" name="date_time">
+        <input type="datetime-local" id="date_time" name="date_time" required>
         <label for="value">Value:</label>
-        <input type="text" id="value" name="value">
+        <input type="text" id="value" name="value" required>
         <button type="submit">Create</button>
     </form>
 </div>

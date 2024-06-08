@@ -11,11 +11,11 @@
     <h2>Create Location</h2>
     <form method="POST" action="locations/create">
         <label for="location_name">Name:</label>
-        <input type="text" id="location_name" name="name">
+        <input type="text" id="location_name" name="name" required>
         <label for="location_is_indoors">Is Indoors:</label>
-        <input type="checkbox" id="location_is_indoors" name="is_indoors">
+        <input type="checkbox" id="location_is_indoors" name="is_indoors" required>
         <label for="light_category">Light Category:</label>
-        <select id="light_category" name="light_category">
+        <select id="light_category" name="light_category" required>
             {{#each pickerOptions.lightCategoriesPickerOptions}}
             {{#if this}}
                 <option value={{@key}}>{{this}}</option>
@@ -30,7 +30,7 @@
     <!-- Update Entry Form -->
     <h2>Update Entry</h2>
     <form method="POST" action="locations/update">
-        <select id="location_id_select" name="location_id">
+        <select id="location_id_select" name="location_id" required>
             <option disabled selected value>Location ID</option>
             {{#each entries}}
             {{#if this.update_id}}
@@ -39,14 +39,11 @@
             {{/each}}
         </select>
         <label for="location_name">Name:</label>
-        <input type="text" id="location_name" name="name">
+        <input type="text" id="location_name" name="name" required>
         <label for="location_is_indoors">Is Indoors:</label>
-        <input type="checkbox" id="location_is_indoors" name="is_indoors">
-
-        <label for="date_added">Date:</label>
-        <input type="text" id="date_added" name="date_added">
+        <input type="checkbox" id="location_is_indoors" name="is_indoors" required>
         <label for="light_category">Light Category:</label>
-        <select id="light_category" name="light_category">
+        <select id="light_category" name="light_category" required>
             {{#each pickerOptions.lightCategoriesPickerOptions}}
             {{#if this}}
                 <option value={{@key}}>{{this}}</option>
