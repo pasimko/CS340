@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/css/form.css">
-
+<h1>{{title}}</h1>
 <label for="operation">Select Operation:</label>
 <select id="operation" onchange="toggleForm()">
     <option disabled selected value> select an option </option>
@@ -13,6 +13,9 @@
         Formation of input type range taken from https://www.w3schools.com/html/html_form_input_types.asp
         Accessed 5/25/2024
     -->
+
+    <!---Display and update of value on input type range taken from https://stackoverflow.com/questions/10004723/html5-input-type-range-show-range-value
+    Accessed 6/7/2024-->
     <h2>Create Update</h2>
     <form method="POST" action="updates/create">
         <label for="health_score">Health Score (0-10): <output id = "healthscore">5</output> </label>
@@ -74,7 +77,7 @@
             <th>ID</th>
             <th>Health Score</th>
             <th>Comment</th>
-            <th>Image URL</th>
+            <th>Image</th>
             <th>Update Date</th>
             <th>Plant</th>
         </tr>
@@ -86,7 +89,9 @@
             <td>{{this.update_id}}</td>
             <td>{{this.health_score}}</td>
             <td>{{this.comment}}</td>
-            <td>{{this.image_location}}</td>
+            <td>{{#if this.image_location}}
+                <img src="{{this.image_location}}"></td>
+                {{/if}}
             <td>{{formatDate this.update_date}}</td>
             <td>{{lookup @root.pickerOptions.plantPickerOptions this.plants_plant_id}}</td>
             <td>

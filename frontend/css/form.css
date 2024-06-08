@@ -14,3 +14,12 @@ input {
 button {
     padding: 8px;
 }
+
+/* image styling tips from https://imagekit.io/blog/how-to-resize-image-in-html/
+Accessed 6/7/2024*/
+img {   
+    height: 150px;
+    width: auto;
+    max-width: 100%;
+  }
+  
