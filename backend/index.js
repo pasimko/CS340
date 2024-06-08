@@ -81,11 +81,13 @@ export async function runServer() {
         app.post(`/${page}/update`, async (req, res) =>
             {
                 const obj = JSON.parse(JSON.stringify(req.body));
+                console.log(obj);
                 if(req.body !== null)
                     {
                         const primaryKey = primaryKeyDictionary[page];
                         const queryString = SQLQueries.UpdateQueryString(page, obj, primaryKey);
    
+                        console.log(queryString);
                         await connection.query(queryString);
  
                         res.redirect(req.get('referer'));
