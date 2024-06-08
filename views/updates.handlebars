@@ -50,8 +50,8 @@
             {{/if}}
             {{/each}}
         </select>
-        <label for="health_score">Health Score (0-10):</label>
-        <input type="range" id="health_score" name="health_score" min="0" max="10" required>
+        <label for="health_score">Health Score (0-10): <output id = "healthscore">5</output></label>
+        <input type="range" id="health_score" name="health_score" min="0" max="10" oninput="healthscore.value=health_score.value"  required>
         <label for="comment">Comment:</label>
         <input type="text" id="comment" name="comment" required>
         <label for="image_location">Image Location (url):</label>
