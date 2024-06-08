@@ -33,7 +33,7 @@
         <select id="location_id_select" name="location_id" required>
             <option disabled selected value>Location ID</option>
             {{#each entries}}
-            {{#if this.update_id}}
+            {{#if this.location_id}}
             <option value="{{this.location_id}}">{{this.location_id}}</option>
             {{/if}}
             {{/each}}
