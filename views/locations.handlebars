@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="/css/form.css">
 <h1>{{title}}</h1>
 <label for="operation">Select Operation:</label>
 <select id="operation" onchange="toggleForm()">
@@ -13,7 +12,7 @@
         <label for="location_name">Name:</label>
         <input type="text" id="location_name" name="name" required>
         <label for="location_is_indoors">Is Indoors:</label>
-        <input type="checkbox" id="location_is_indoors" name="is_indoors">
+        <input type="checkbox" id="location_is_indoors_create" name="is_indoors">
         <label for="light_category">Light Category:</label>
         <select id="light_category" name="light_category" required>
             {{#each pickerOptions.lightCategoriesPickerOptions}}
@@ -41,7 +40,7 @@
         <label for="location_name">Name:</label>
         <input type="text" id="location_name" name="name" required>
         <label for="location_is_indoors">Is Indoors:</label>
-        <input type="checkbox" id="location_is_indoors" name="is_indoors">
+        <input type="checkbox" id="location_is_indoors_update" name="is_indoors">
         <label for="light_category">Light Category:</label>
         <select id="light_category" name="light_category" required>
             {{#each pickerOptions.lightCategoriesPickerOptions}}
@@ -89,4 +88,14 @@
         document.getElementById('createForm').style.display = operation === 'create' ? 'block' : 'none';
         document.getElementById('updateForm').style.display = operation === 'update' ? 'block' : 'none';
     }
+    document.getElementById('updateForm').addEventListener('submit', function(event) {
+        var checkbox = document.getElementById('location_is_indoors_update');
+        checkbox.value = checkbox.checked ? '1' : '0';
+        checkbox.checked = true;
+    });
+    document.getElementById('createForm').addEventListener('submit', function(event) {
+        var checkbox = document.getElementById('location_is_indoors_create');
+        checkbox.value = checkbox.checked ? '1' : '0';
+        checkbox.checked = true;
+    });
 </script>
