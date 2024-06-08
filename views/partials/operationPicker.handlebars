@@ -1,0 +1,15 @@
+
+  <label for="operation">Select Operation:</label>
+  <select id="operation" onchange="toggleForm()">
+    <option disabled selected value> select an option </option>
+    <option value="create">Create</option>
+    <option value="update">Update</option>
+  </select>
+
+  <script>
+    function toggleForm() {
+        const operation = document.getElementById('operation').value;
+        document.getElementById('createForm').style.display = operation === 'create' ? 'block' : 'none';
+        document.getElementById('updateForm').style.display = operation === 'update' ? 'block' : 'none';
+    }
+</script>

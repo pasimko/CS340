@@ -40,6 +40,7 @@ export async function runServer() {
     const handlebars = create({ defaultLayout: 'main' });
     handlebars.handlebars.registerHelper('formatDate', handlebarsHelpers.formatDate);
     handlebars.handlebars.registerHelper('formatDateTime', handlebarsHelpers.formatDateTime);
+    //handlebars.handlebars.registerPartial("operationPicker", "operationPicker.handlebars");
 
     app.engine('handlebars', handlebars.engine);
     app.set('view engine', 'handlebars');
