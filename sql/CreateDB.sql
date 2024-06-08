@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `cs340_thurmesk`.`sensors` (
   `name` VARCHAR(45) NOT NULL,
   `sensor_type` VARCHAR(45) NULL,
   `data_units` VARCHAR(45) NULL,
-  `status` TINYINT NOT NULL,
+  `status` ENUM('on', 'off') NOT NULL;
   PRIMARY KEY (`sensor_id`))
 ENGINE = InnoDB;
 

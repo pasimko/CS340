@@ -17,8 +17,8 @@
         <input type="text" id="sensor_type" name="sensor_type" required>
         <label for="data_units">Units:</label>
         <input type="text" id="data_units" name="data_units" required>
-        <label for="status">Status good:</label>
-        <input type="checkbox" id="status" name="status" required>
+        <label for="status">On?</label>
+        <input type="checkbox" id="status_create" name="status">
         <button type="submit">Create</button>
     </form>
   </div>
@@ -41,8 +41,8 @@
         <input type="text" id="sensor_type" name="sensor_type" required>
         <label for="data_units">Units:</label>
         <input type="text" id="data_units" name="data_units" required>
-        <label for="status">Status good:</label>
-        <input type="checkbox" id="status" name="status" required>
+        <label for="status">On?</label>
+        <input type="checkbox" id="status_update" name="status">
       <button type="submit">Update</button>
     </form>
   </div>
@@ -83,6 +83,14 @@
         document.getElementById('createForm').style.display = operation === 'create' ? 'block' : 'none';
         document.getElementById('updateForm').style.display = operation === 'update' ? 'block' : 'none';
     }
+    document.getElementById('updateForm').addEventListener('submit', function(event) {
+        var checkbox = document.getElementById('status_update');
+        checkbox.value = checkbox.checked ? 'on' : 'off';
+        checkbox.checked = true;
+    });
+    document.getElementById('createForm').addEventListener('submit', function(event) {
+        var checkbox = document.getElementById('status_create');
+        checkbox.value = checkbox.checked ? 'on' : 'off';
+        checkbox.checked = true;
+    });
 </script>
-
-
