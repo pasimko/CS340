@@ -1,7 +1,8 @@
 <link rel="stylesheet" href="/css/form.css">
 
 <h1>{{title}}</h1>
-<div>{{> operationPicker}}</div>
+
+<div class = "operationPicker">{{>operationPicker}}</div>
 
 <div id="createForm" style="display: none;">
     <!-- Create Entry Form -->
@@ -22,7 +23,7 @@
         <input type="url" id="image_location" name="image_location">
         <label for="update_date">Date:</label>
         <input type="date" id="update_date" name="update_date" required>
-        <label for="update_date">Plant:</label>
+        <label for="plants">Plant:</label>
         <select id="plants" name="plants_plant_id" required>
             {{#each pickerOptions.plantPickerOptions}}
             {{#if this}}
@@ -81,7 +82,7 @@
     <tbody>
         {{#each entries}}
         {{#if this.update_id}}
-        <tr data-value={{this.update_id}}>
+        <tr>
             <td>{{this.update_id}}</td>
             <td>{{this.health_score}}</td>
             <td>{{this.comment}}</td>
@@ -93,7 +94,7 @@
             <td>
                 <form method="POST" action="updates/delete">
                     <input style="display: none;" type="number" name="deleteId" value={{this.update_id}}>
-                    <button type="submit">Delete</button>
+                    <button type="submit" class="submitButton">Delete</button>
                 </form>
             </td>
         </tr>
@@ -101,4 +102,3 @@
         {{/each}}
     </tbody>
 </table>
-

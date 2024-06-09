@@ -1,11 +1,8 @@
 <link rel="stylesheet" href="/css/form.css">
+
    <h1>{{title}}</h1>
-  <label for="operation">Select Operation:</label>
-  <select id="operation" onchange="toggleForm()">
-    <option disabled selected value> select an option </option>
-    <option value="create">Create</option>
-    <option value="update">Update</option>
-  </select>
+
+    <div class = "operationPicker">{{>operationPicker}}</div>
 
   <div id="createForm" style="display: none;">
     <!-- Create Entry Form -->
@@ -69,7 +66,7 @@
                 <td>
                     <form method="POST" action="sensors/delete" >
                         <input style="display: none;" type="number" name="deleteId" value = {{this.sensor_id}}>
-                        <button type = "submit">Delete</button>
+                        <button type="submit" class="submitButton">Delete</button>
                     </form>
                 </td>
             </tr>
@@ -78,11 +75,6 @@
         </tbody>
 </table>
 <script>
-    function toggleForm() {
-        const operation = document.getElementById('operation').value;
-        document.getElementById('createForm').style.display = operation === 'create' ? 'block' : 'none';
-        document.getElementById('updateForm').style.display = operation === 'update' ? 'block' : 'none';
-    }
     document.getElementById('updateForm').addEventListener('submit', function(event) {
         var checkbox = document.getElementById('status_update');
         checkbox.value = checkbox.checked ? 'on' : 'off';

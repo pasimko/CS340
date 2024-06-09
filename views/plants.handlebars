@@ -1,11 +1,8 @@
 <link rel="stylesheet" href="/css/form.css">
+
 <h1>{{title}}</h1>
-<label for="operation">Select Operation:</label>
-<select id="operation" onchange="toggleForm()">
-    <option disabled selected value> select an option </option>
-    <option value="create">Create</option>
-    <option value="update">Update</option>
-</select>
+
+<div class = "operationPicker">{{>operationPicker}}</div>
 
 <div id="createForm" style="display: none;">
     <h2>Create Plant</h2>
@@ -75,7 +72,7 @@
             <td>
                 <form method="POST" action="plants/delete">
                     <input style="display: none;" type="number" name="deleteId" value={{this.plant_id}}>
-                    <button type="submit">Delete</button>
+                    <button type="submit" class="submitButton">Delete</button>
                 </form>
             </td>
         </tr>
@@ -83,11 +80,3 @@
         {{/each}}
     </tbody>
 </table>
-
-<script>
-    function toggleForm() {
-        const operation = document.getElementById('operation').value;
-        document.getElementById('createForm').style.display = operation === 'create' ? 'block' : 'none';
-        document.getElementById('updateForm').style.display = operation === 'update' ? 'block' : 'none';
-    }
-</script>

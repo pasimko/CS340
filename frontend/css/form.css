@@ -1,18 +1,33 @@
+*{
+    font-family: sans-serif;
+}
+
 form {
     display: flex;
     flex-direction: column;
     max-width: 300px;
-    margin-bottom: 20px;
 }
+
 label {
     margin-bottom: 5px;
 }
+
 input {
-    margin-bottom: 10px;
     padding: 5px;
+    margin-bottom: 5px;
 }
+
 button {
     padding: 8px;
+    margin: 5px;
+    background-color: #58f5bb;
+    border-radius: 4px;
+}
+
+.submitButton {
+    width: 100px;
+    height: 40px;
+    vertical-align: middle;
 }
 
 /* image styling tips from https://imagekit.io/blog/how-to-resize-image-in-html/
@@ -25,6 +40,23 @@ img {
 
 h1 {
     font-weight: bold;
-    font-size:large;
+}
+
+td {
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center; 
+    vertical-align: middle;
+    width: auto;
+}
+
+table {
+    width: auto;
+    max-width: 1000px;
+    margin-top:20px;
+}
+
+.operationPicker {
+    margin-bottom: 10px;
 }
   
