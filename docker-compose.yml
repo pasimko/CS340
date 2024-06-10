@@ -7,7 +7,7 @@ services:
       DB_HOST: mysql
       DB_USER: user
       DB_PASSWORD: password
-      DB_NAME: cs340_thurmesk
+      DB_NAME: cs340_ONID
     depends_on:
       mysql:
         condition: service_healthy
@@ -23,7 +23,7 @@ services:
       - db-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: cs340_thurmesk
+      MYSQL_DATABASE: cs340_ONID
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     ports:
