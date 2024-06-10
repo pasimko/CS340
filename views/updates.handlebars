@@ -1,3 +1,11 @@
+<!---
+    Formation of input type range taken from https://www.w3schools.com/html/html_form_input_types.asp
+    Accessed 5/25/2024
+-->
+
+<!---Display and update of value on input type range taken from https://stackoverflow.com/questions/10004723/html5-input-type-range-show-range-value
+Accessed 6/7/2024-->
+
 <link rel="stylesheet" href="/css/form.css">
 
 <h1>{{title}}</h1>
@@ -5,14 +13,6 @@
 <div class = "operationPicker">{{>operationPicker}}</div>
 
 <div id="createForm" style="display: none;">
-    <!-- Create Entry Form -->
-    <!---
-        Formation of input type range taken from https://www.w3schools.com/html/html_form_input_types.asp
-        Accessed 5/25/2024
-    -->
-
-    <!---Display and update of value on input type range taken from https://stackoverflow.com/questions/10004723/html5-input-type-range-show-range-value
-    Accessed 6/7/2024-->
     <h2>Create Update</h2>
     <form method="POST" action="updates/create">
         <label for="health_score">Health Score (0-10): <output id = "healthscore">5</output> </label>
@@ -36,7 +36,6 @@
 </div>
 
 <div id="updateForm" style="display: none;">
-    <!-- Update Entry Form -->
     <h2>Update Entry</h2>
     <form method="POST" action="updates/update">
         <select id="update_id_select" name="update_id" required>

@@ -1,3 +1,7 @@
+// GetTableDataTypes:
+    // Query syntax taken from: https://stackoverflow.com/questions/41146316/sql-server-query-to-get-data-type-for-all-columns-in-table
+    // Accessed 5/19/2024
+
 export function InsertQueryString(tableName, keyValues)
 {
     const keyStrings = Object.keys(keyValues).join(', ');
@@ -11,9 +15,6 @@ export function InsertQueryString(tableName, keyValues)
 
 export function GetTableDataTypes(tableName)
 {
-    //Get datatypes from table
-    //Query syntax taken from: https://stackoverflow.com/questions/41146316/sql-server-query-to-get-data-type-for-all-columns-in-table
-    //Accessed 5/19/2024
     const queryString = `SELECT COLUMN_NAME, COLUMN_TYPE, COLUMN_KEY FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '${tableName}'`;
     return queryString;
 }
@@ -27,10 +28,7 @@ export function GetPrimaryKeysQuery()
 
 export function GetFullDataTableQuery(page)
 {
-        // Construct the base query
-        let baseQuery = `SELECT ${page}.*`;
-        // Construct JOIN clauses for foreign keys
-
+    let baseQuery = `SELECT ${page}.*`;
     return `${baseQuery} FROM ${page}`;
 }
 

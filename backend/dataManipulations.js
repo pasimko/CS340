@@ -1,4 +1,3 @@
-
 export function GetPrimaryKeyDictionary(sqlReturnValue)
 {
     let primaryKeyDictionary = {};

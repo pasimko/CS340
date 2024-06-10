@@ -94,7 +94,6 @@ CREATE TABLE IF NOT EXISTS `cs340_thurmesk`.`sensor_readings` (
   `sensors_sensor_id` INT NOT NULL,
   `date_time` DATETIME NULL,
   `value` VARCHAR(45) NULL,
-  -- PRIMARY KEY (`sensor_reading_id`),
   INDEX `fk_plants_has_sensors_sensors1_idx` (`sensors_sensor_id` ASC),
   INDEX `fk_plants_has_sensors_plants_idx` (`plants_plant_id` ASC),
   CONSTRAINT `fk_plants_has_sensors_plants`

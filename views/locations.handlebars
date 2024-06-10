@@ -23,7 +23,6 @@
 </div>
 
 <div id="updateForm" style="display: none;">
-    <!-- Update Entry Form -->
     <h2>Update Entry</h2>
     <form method="POST" action="locations/update">
         <select id="location_id_select" name="location_id" required>
@@ -80,6 +79,8 @@
 </table>
 
 <script>
+    <!-- Replace checkbox data + mark as checked as checkbox has to be
+    "checked" to send data -->
     document.getElementById('updateForm').addEventListener('submit', function(event) {
         var checkbox = document.getElementById('location_is_indoors_update');
         checkbox.value = checkbox.checked ? '1' : '0';

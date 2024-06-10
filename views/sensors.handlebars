@@ -5,7 +5,6 @@
     <div class = "operationPicker">{{>operationPicker}}</div>
 
   <div id="createForm" style="display: none;">
-    <!-- Create Entry Form -->
     <h2>Create Sensor</h2>
     <form method="POST" action="sensors/create">
         <label for="sensor_name">Name:</label>
@@ -21,7 +20,6 @@
   </div>
 
   <div id="updateForm" style="display: none;">
-    <!-- Update Entry Form -->
     <h2>Update Sensor</h2>
     <form method="POST" action="sensors/update">
         <select id="sensor_id_select" name="sensor_id" required>
@@ -75,6 +73,8 @@
         </tbody>
 </table>
 <script>
+    <!-- Replace checkbox data + mark as checked as checkbox has to be
+    "checked" to send data -->
     document.getElementById('updateForm').addEventListener('submit', function(event) {
         var checkbox = document.getElementById('status_update');
         checkbox.value = checkbox.checked ? 'on' : 'off';
