@@ -72,7 +72,7 @@
     <tbody>
         {{#each entries}}
         {{#if this.action_id}}
-        <tr data-value={{this.action_id}}>
+        <tr>
             <td>{{this.action_id}}</td>
             <td>{{lookup @root.pickerOptions.actionTypesPickerOptions this.action_type}}</td>
             <td>{{formatDate this.action_date}}</td>

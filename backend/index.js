@@ -12,6 +12,7 @@ import * as dataManipulations from './dataManipulations.js'
 import * as handlebarsHelpers from './handlebarsHelpers.js'
 
 const pages = {'sensors':'Sensors', 'light_categories':'Light Categories', 'action_types':'Action Types', 'actions':'Actions', 'plants':'Plants', 'locations':'Locations', 'sensor_readings':'Sensor Readings', 'updates':'Updates'};
+const boolDisplays = {'is_indoors': {1:"Yes", 0:"No"}, 'status': {1:"On", 0: "Off"}};
 let fullData = {}; //contains all data for all pages
 
 export async function runServer() {
@@ -40,7 +41,10 @@ export async function runServer() {
     const handlebars = create({ defaultLayout: 'main' });
     handlebars.handlebars.registerHelper('formatDate', handlebarsHelpers.formatDate);
     handlebars.handlebars.registerHelper('formatDateTime', handlebarsHelpers.formatDateTime);
-    //handlebars.handlebars.registerPartial("operationPicker", "operationPicker.handlebars");
+
+    
+//JSON encoding setup taken from https://stackoverflow.com/questions/23259168/what-are-express-json-and-express-urlencoded
+//Accessed 6/5/2024
 
     app.engine('handlebars', handlebars.engine);
     app.set('view engine', 'handlebars');
@@ -61,7 +65,7 @@ export async function runServer() {
             pickerOptions.actionTypesPickerOptions = dataManipulations.GetFKDictionary(fullData,`action_types`, `action_type_id`, `name`);
             
             // Render the corresponding Handlebars template
-            res.render(page, {title: pages[page], entries: fullData[page], pages: pages, pickerOptions: pickerOptions });
+            res.render(page, {title: pages[page], entries: fullData[page], pages: pages, pickerOptions: pickerOptions, boolDisplays});
 
         });
         app.post(`/${page}/create`, async (req, res) =>
@@ -82,13 +86,11 @@ export async function runServer() {
         app.post(`/${page}/update`, async (req, res) =>
             {
                 const obj = JSON.parse(JSON.stringify(req.body));
-                console.log(obj);
                 if(req.body !== null)
                     {
                         const primaryKey = primaryKeyDictionary[page];
                         const queryString = SQLQueries.UpdateQueryString(page, obj, primaryKey);
    
-                        console.log(queryString);
                         await connection.query(queryString);
  
                         res.redirect(req.get('referer'));
@@ -132,12 +134,9 @@ export async function runServer() {
         const privateKey = fs.readFileSync(path.join(process.env.CERT_PATH, "privkey.pem"), "utf8");
         const certificate = fs.readFileSync(path.join(process.env.CERT_PATH, "fullchain.pem"), "utf8");
 
-
         const credentials = { key: privateKey, cert: certificate };
 
-
         const httpsServer = https.createServer(credentials, app);
-
 
         httpsServer.listen(443, () => {
             console.log('HTTPS server running on port 443');
