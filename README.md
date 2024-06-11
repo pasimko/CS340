@@ -24,3 +24,13 @@ Accessed 5/25/2024
 Display and update of value on input type range taken from https://stackoverflow.com/questions/10004723/html5-input-type-range-show-range-value
 Accessed 6/7/2024
 ```
+
+```
+JSON encoding setup taken from https://stackoverflow.com/questions/23259168/what-are-express-json-and-express-urlencoded
+Accessed 6/5/2024
+```
+
+```
+Handlebars lookup syntax taken from https://handlebarsjs.com/guide/builtin-helpers.html#if
+Accessed 5/30/2024
+```

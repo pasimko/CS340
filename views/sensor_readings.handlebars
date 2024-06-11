@@ -82,7 +82,7 @@
     <tbody>
         {{#each entries}}
         {{#if this.sensor_reading_id}}
-        <tr data-value={{this.sensor_reading_id}}>
+        <tr>
             <td>{{this.sensor_reading_id}}</td>
             <td>{{lookup @root.pickerOptions.sensorPickerOptions this.sensors_sensor_id}}</td>
             <td>{{lookup @root.pickerOptions.plantPickerOptions this.plants_plant_id}}</td>

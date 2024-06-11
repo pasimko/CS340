@@ -9,7 +9,13 @@
         <label for="location_name">Name:</label>
         <input type="text" id="location_name" name="name" required>
         <label for="location_is_indoors">Is Indoors:</label>
-        <input type="checkbox" id="location_is_indoors_create" name="is_indoors">
+        <select id="location_is_indoors" name = "is_indoors" required>
+            {{#each boolDisplays.is_indoors}}
+            {{#if this}}
+                <option value = {{@key}}>{{this}}</option>
+                {{/if}}
+                {{/each}}
+        </select>
         <label for="light_category">Light Category:</label>
         <select id="light_category" name="light_category" required>
             {{#each pickerOptions.lightCategoriesPickerOptions}}
@@ -36,7 +42,13 @@
         <label for="location_name">Name:</label>
         <input type="text" id="location_name" name="name" required>
         <label for="location_is_indoors">Is Indoors:</label>
-        <input type="checkbox" id="location_is_indoors_update" name="is_indoors">
+        <select id="location_is_indoors" name = "is_indoors" required>
+            {{#each boolDisplays.is_indoors}}
+            {{#if this}}
+                <option value = {{@key}}>{{this}}</option>
+                {{/if}}
+                {{/each}}
+        </select>
         <label for="light_category">Light Category:</label>
         <select id="light_category" name="light_category" required>
             {{#each pickerOptions.lightCategoriesPickerOptions}}
@@ -61,10 +73,10 @@
     <tbody>
         {{#each entries}}
         {{#if this.location_id}}
-        <tr data-value={{this.location_id}}>
+        <tr>
             <td>{{this.location_id}}</td>
             <td>{{this.name}}</td>
-            <td>{{this.is_indoors}}</td>
+            <td>{{lookup @root.boolDisplays.is_indoors this.is_indoors}}</td>
             <td>{{lookup @root.pickerOptions.lightCategoriesPickerOptions this.light_category}}</td>
             <td>
                 <form method="POST" action="locations/delete">
