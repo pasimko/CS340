@@ -14,14 +14,8 @@
         <input type="text" id="sensor_type" name="sensor_type" required>
         <label for="data_units">Units:</label>
         <input type="text" id="data_units" name="data_units" required>
-        <label for="status">Status: </label>
-                        <select id="status" name = "status" required>
-            {{#each boolDisplays.status}}
-            {{#if this}}
-                <option value = {{@key}}>{{this}}</option>
-                {{/if}}
-                {{/each}}
-        </select>
+        <label for="status">On?</label>
+        <input type="checkbox" id="status_create" name="status">
         <button type="submit">Create</button>
     </form>
   </div>
@@ -44,14 +38,7 @@
         <input type="text" id="sensor_type" name="sensor_type" required>
         <label for="data_units">Units:</label>
         <input type="text" id="data_units" name="data_units" required>
-        <label for="status">Status:</label>
-                <select id="status" name = "status" required>
-            {{#each boolDisplays.status}}
-            {{#if this}}
-                <option value = {{@key}}>{{this}}</option>
-                {{/if}}
-                {{/each}}
-        </select>
+        <label for="status">On?</label>
         <input type="checkbox" id="status_update" name="status">
       <button type="submit">Update</button>
     </form>
@@ -70,12 +57,12 @@
         <tbody>
             {{#each entries}}
             {{#if this.sensor_id}}
-            <tr>
+            <tr data-value={{this.sensor_id}}>
                 <td>{{this.sensor_id}}</td>
                 <td>{{this.name}}</td>
                 <td>{{this.sensor_type}}</td>
                 <td>{{this.data_units}}</td>
-                <td>{{lookup @root.boolDisplays.status this.status}}</td>
+                <td>{{this.status}}</td>
                 <td>
                     <form method="POST" action="sensors/delete" >
                         <input style="display: none;" type="number" name="deleteId" value = {{this.sensor_id}}>
